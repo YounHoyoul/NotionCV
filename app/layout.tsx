@@ -1,3 +1,6 @@
+import 'reflect-metadata';
+import './di-container'
+
 import './globals.css'
 import { Inter } from 'next/font/google'
 
