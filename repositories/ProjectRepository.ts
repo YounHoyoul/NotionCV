@@ -1,38 +1,42 @@
 import type ProjectRepositoryInterface from './ProjectRepositoryInterface'
 import NotionRepository from './NotionRepository';
+import { 
+    FIELD_BACKEND,
+    FIELD_COMPANY_FORMATTED, 
+    FIELD_FRONTEND, 
+    FIELD_LANGUAGE, 
+    FIELD_NAME, 
+    FIELD_NOTE, 
+    FIELD_PERIOD, 
+    FIELD_RESPONSIBILITY, 
+    FIELD_ROLE, 
+    FIELD_TYPE, 
+    FIELD_WEB_DB_SERVERS, 
+    FIELD_WORKING_MONTH, 
+    FIELD_WORKING_PERIOD, 
+    PROPERITES 
+} from './Constants';
 
 export default class ProjectRepository extends NotionRepository implements ProjectRepositoryInterface {
-    async _fetchData() : Promise<any[]> {
-        const db_id = process.env.PROJECT_DB_ID as string;
-        let results: any[] = [];
-        let response = await this.database(db_id);
-
-        results = [...results, ...response.results];
-        while (response.has_more) {
-            response = await this.database(db_id, response.next_cursor as string);
-            results = [...results, ...response.results];
-        }
-
-        return results;
-    }
-
-    _convert(results: any[]) : Project[] {
+    private convert(results: any[]): Project[] {
         const projects: Project[] = [];
 
         for (const project of results) {
+            const properties = project[PROPERITES];
             projects.push({
-                Name : this.getNotionTitle(project['properties']['Name']),
-                Responsibility: this.getNotionRichText(project['properties']['Responsibility']),
-                Company: this.getFormulaString(project['properties']['Company Formatted']),
-                WorkingMonths: this.getFormulaNumber(project['properties']['Working Month']),
-                WorkingPeriod: this.getFormulaString(project['properties']['Working Period']),
-                Language: this.getMultiSelect(project['properties']['Language']),
-                Backend: this.getMultiSelect(project['properties']['Backend']),
-                Frontend: this.getMultiSelect(project['properties']['Frontend']),
-                WebDbServer: this.getMultiSelect(project['properties']['Web/DB Servers']),
-                Type: this.getSelect(project['properties']['Type']),
-                Period: this.getDate(project['properties']['Period']),
-                Role: this.getSelect(project['properties']['Role']),
+                name: this.getNotionTitle(properties[FIELD_NAME]),
+                responsibility: this.getNotionRichText(properties[FIELD_RESPONSIBILITY]),
+                company: this.getFormulaString(properties[FIELD_COMPANY_FORMATTED]),
+                workingMonths: this.getFormulaNumber(properties[FIELD_WORKING_MONTH]),
+                workingPeriod: this.getFormulaString(properties[FIELD_WORKING_PERIOD]),
+                language: this.getMultiSelect(properties[FIELD_LANGUAGE]),
+                backend: this.getMultiSelect(properties[FIELD_BACKEND]),
+                frontend: this.getMultiSelect(properties[FIELD_FRONTEND]),
+                webDbServer: this.getMultiSelect(properties[FIELD_WEB_DB_SERVERS]),
+                type: this.getSelect(properties[FIELD_TYPE]),
+                period: this.getDate(properties[FIELD_PERIOD]),
+                role: this.getSelect(properties[FIELD_ROLE]),
+                note: this.getNotionRichText(properties[FIELD_NOTE]),
             } as Project);
         }
 
@@ -40,6 +44,6 @@ export default class ProjectRepository extends NotionRepository implements Proje
     }
 
     async all(): Promise<Project[]> {
-        return this._convert(await this._fetchData());
+        return this.convert(await this.fetchFromDatabase(process.env.PROJECT_DB_ID!));
     }
 }

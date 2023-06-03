@@ -4,46 +4,54 @@ type SelectItem = {
     color: string
 }
 
+type NotionAnnotations = {
+    bold: boolean,
+    italic: boolean,
+    strikethrough: boolean,
+    underline: boolean,
+    code: boolean,
+    color: string
+}
+
 type NotionText = {
     type: string,
     text: {
         content: string,
         link?: string
     },
-    annotations: {
-        bold: boolean,
-        italic: boolean,
-        strikethrough: boolean,
-        underline: boolean,
-        code: boolean,
-        color: string
-    },
+    annotations: NotionAnnotations,
     plain_text: string,
     href?: string
 }
 
 type NotionTitle = {
-    id: string, 
-    type: 'title', 
+    id: string,
+    type: 'title',
     title: NotionText[]
 };
 
 type NotionRichText = {
-    id: string, 
-    type: 'rich_text', 
+    id: string,
+    type: 'rich_text',
     rich_text: NotionText[]
 };
 
 type NotionFormulaString = {
     id: string,
     type: 'formula',
-    formula: { type: 'string', string: string }
+    formula: {
+        type: 'string',
+        string: string
+    }
 }
 
 type NotionFormulaNumber = {
     id: string,
     type: 'formula',
-    formula: { type: 'number', number: number }
+    formula: {
+        type: 'number',
+        number: number
+    }
 }
 
 type NotionSelect = {
@@ -70,17 +78,56 @@ type NotionDate = {
     date: Period
 }
 
+type NotionUrl = {
+    type: 'external',
+    external: {
+        url: string
+    }
+}
+
+type NotionBulletedListItem = {
+    rich_text: NotionText[],
+    color: string
+}
+
+type NotionParagraph = NotionBulletedListItem
+
 type Project = {
-    Name: NotionText[],
-    Company?: string,
-    Type?: SelectItem,
-    Role?: SelectItem,
-    Language?: SelectItem[],
-    Backend?: SelectItem[],
-    Frontend?: SelectItem[],
-    WebDbServer?: SelectItem[],
-    Period?: Period,
-    Responsibility: NotionText[],
-    WorkingMonths?: number,
-    WorkingPeriod: string
+    name: NotionText[],
+    company: string,
+    type: SelectItem,
+    role: SelectItem,
+    language: SelectItem[],
+    backend: SelectItem[],
+    frontend: SelectItem[],
+    webDbServer: SelectItem[],
+    period: Period,
+    responsibility: NotionText[],
+    workingMonths: number,
+    workingPeriod: string,
+    note: NotionText[],
+}
+
+type Experience = {
+    name: NotionText[],
+    type: SelectItem,
+    role: SelectItem,
+    address: NotionText[],
+    workingPeriod: string,
+}
+
+type Cert = {
+    name: NotionText[],
+    type: SelectItem,
+    issueOrganization: NotionText[],
+    issueDate: Period
+}
+
+type Profile = {
+    name: NotionText[],
+    cover: NotionUrl,
+    icon: NotionUrl,
+    aboutMe: NotionBulletedListItem[],
+    contacts: NotionParagraph[],
+    languages: NotionParagraph[],
 }
