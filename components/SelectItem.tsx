@@ -3,7 +3,7 @@ type Props = {
 };
 
 export default function SelectItem({ item }: Props) {
-  const colorVariants : any = {
+  const colorVariants: any = {
     default: 'bg-slate-100 text-slate-800',
     gray: 'bg-gray-100 text-gray-800',
     green: 'bg-green-100 text-green-800',
@@ -16,9 +16,9 @@ export default function SelectItem({ item }: Props) {
     pink: 'bg-pink-100 text-pink-800',
   };
 
-  const colorStyle = colorVariants[item.color];
+  const colorStyle = colorVariants[item?.color ?? 'default'];
 
   return (
-    <span className={`text-xs px-2 py-1 rounded ${item.color} ${colorStyle}`}>{item.name}</span>
+    <span className={`text-xs px-2 py-1 rounded ${colorStyle}`}>{item?.name}</span>
   )
 }

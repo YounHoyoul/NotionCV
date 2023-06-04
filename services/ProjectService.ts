@@ -22,16 +22,19 @@ export default class ProjectService implements ProjectServiceInterface {
         });
     }
 
-    async groupByCompany(): Promise<{ company: Experience, projects: Project[] }[]> {
-        const allExpericen = await this.experienceRepository.all();
+    async groupByCompany(): Promise<{ company: string, workingPeriod: string, projects: Project[] }[]> {
+        const allExperiences = await this.experienceRepository.all();
         const allProjects = await this.all();
 
-        const result: { company: Experience, projects: Project[] }[] = [];
+        const result: { company: string, workingPeriod: string, projects: Project[] }[] = [];
+        const allCompanies: string[] = allExperiences.map(experience => experience.name[0].plain_text);
+        allCompanies.push('Personal');
 
-        for (const experience of allExpericen) {
+        for (const company of allCompanies) {
             result.push({
-                company: experience,
-                projects: allProjects.filter(item => item.company === experience.name[0].plain_text)
+                company: company,
+                workingPeriod: allExperiences.filter(item => item.name[0].plain_text == company)[0]?.workingPeriod ?? '',
+                projects: allProjects.filter(item => item.company === company)
             });
         }
 
