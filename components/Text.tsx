@@ -1,15 +1,19 @@
 type Props = {
   text: NotionText[],
+  fontSize?: "xs" | "sm" | "md" | "lg" | "xl",
+  fontWeight?: boolean,
   children?: React.ReactNode
 };
 
 class TextDecorator {
-  constructor(readonly next?: TextDecorator) { }
+  constructor(readonly fontSize?: string, readonly fontWeight?: string, readonly next?: TextDecorator) { }
   draw(item: NotionText, index: number): React.ReactNode {
     throw new Error('draw is not implemented');
   }
   parseClassname(item: NotionText) {
     return [
+      this.fontSize,
+      this.fontWeight,
       item.annotations.bold ? "font-bold" : '',
       item.annotations.italic ? "italic" : '',
       item.annotations.color === 'gray' ? "text-gray-600 dark:text-gray-300" : ''
@@ -57,14 +61,28 @@ class SpanDecorator extends TextDecorator {
   }
 }
 
-export default function Text({ text, children }: Props) {
+export default function Text({ text, fontSize, fontWeight, children }: Props) {
+  const fontSizeVariables = {
+    "xs": "text-xs",
+    "sm": "text-sm",
+    "md": "text-md",
+    "lg": "text-lg",
+    "xl": "text-xl",
+  };
+
+  let fontSizeClassName = "sm";
+  let fontWeightClassName = "";
+
+  if (fontSize) fontSizeClassName = fontSizeVariables[fontSize];
+  if (fontWeight === true) fontWeightClassName = "font-bold";
+
   return (
-    <p className="text-sm py-2 antialiased">
+    <p className={`py-2`}>
       {text.map((item, index) => {
-        let decorator = item.href ? new AnchorDecorator() : new SpanDecorator();
-        decorator = item.annotations.code ? new CodeDecorator(decorator) : decorator;
-        decorator = item.annotations.underline ? new UnderlineDecorator(decorator) : decorator;
-        decorator = item.annotations.strikethrough ? new StrikethroughDecorator(decorator) : decorator;
+        let decorator = item.href ? new AnchorDecorator(fontSizeClassName, fontWeightClassName) : new SpanDecorator(fontSizeClassName, fontWeightClassName);
+        decorator = item.annotations.code ? new CodeDecorator(fontSizeClassName, fontWeightClassName, decorator) : decorator;
+        decorator = item.annotations.underline ? new UnderlineDecorator(fontSizeClassName, fontWeightClassName, decorator) : decorator;
+        decorator = item.annotations.strikethrough ? new StrikethroughDecorator(fontSizeClassName, fontWeightClassName, decorator) : decorator;
 
         return decorator.draw(item, index);
       })}

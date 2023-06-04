@@ -10,8 +10,8 @@ export const FIELD_ISSUING_ORGANIZATION= 'Issuing organization';
 export const FIELD_ISSUE_DATE = 'Issue date';
 
 export const FIELD_RESPONSIBILITY = 'Responsibility';
-export const FIELD_COMPANY_FORMATTED = 'Company Formatted';
-export const FIELD_WORKING_MONTH= 'Working Month';
+export const FIELD_COMPANY_ID = 'Company Id';
+export const FIELD_TOTAL_MONTH= 'Total Months';
 export const FIELD_WORKING_PERIOD= 'Working Period';
 export const FIELD_LANGUAGE = 'Language';
 export const FIELD_BACKEND = 'Backend';

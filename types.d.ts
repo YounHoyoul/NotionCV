@@ -103,7 +103,7 @@ type Project = {
     webDbServer: SelectItem[],
     period: Period,
     responsibility: NotionText[],
-    workingMonths: number,
+    totalMonths: number,
     workingPeriod: string,
     note: NotionText[],
 }
@@ -131,3 +131,9 @@ type Profile = {
     contacts: NotionParagraph[],
     languages: NotionParagraph[],
 }
+
+type SkillResultSet = {
+    name: string,
+    projects: Project[],
+    workingPeriod: string
+  }

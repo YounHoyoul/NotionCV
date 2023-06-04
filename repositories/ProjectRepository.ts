@@ -2,7 +2,7 @@ import type ProjectRepositoryInterface from './ProjectRepositoryInterface'
 import NotionRepository from './NotionRepository';
 import { 
     FIELD_BACKEND,
-    FIELD_COMPANY_FORMATTED, 
+    FIELD_COMPANY_ID, 
     FIELD_FRONTEND, 
     FIELD_LANGUAGE, 
     FIELD_NAME, 
@@ -12,7 +12,7 @@ import {
     FIELD_ROLE, 
     FIELD_TYPE, 
     FIELD_WEB_DB_SERVERS, 
-    FIELD_WORKING_MONTH, 
+    FIELD_TOTAL_MONTH, 
     FIELD_WORKING_PERIOD, 
     PROPERITES 
 } from './Constants';
@@ -26,8 +26,8 @@ export default class ProjectRepository extends NotionRepository implements Proje
             projects.push({
                 name: this.getNotionTitle(properties[FIELD_NAME]),
                 responsibility: this.getNotionRichText(properties[FIELD_RESPONSIBILITY]),
-                company: this.getFormulaString(properties[FIELD_COMPANY_FORMATTED]),
-                workingMonths: this.getFormulaNumber(properties[FIELD_WORKING_MONTH]),
+                company: this.getSelect(properties[FIELD_COMPANY_ID])?.name,
+                totalMonths: this.getFormulaNumber(properties[FIELD_TOTAL_MONTH]),
                 workingPeriod: this.getFormulaString(properties[FIELD_WORKING_PERIOD]),
                 language: this.getMultiSelect(properties[FIELD_LANGUAGE]),
                 backend: this.getMultiSelect(properties[FIELD_BACKEND]),

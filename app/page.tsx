@@ -17,17 +17,17 @@ import Title from "@/components/Title";
 
 export default async function Home() {
 
-  // const service = container.resolve<ProjectServiceInterface>('ProjectServiceInterface');
-  // await service.all();
+  const projectService = container.resolve<ProjectServiceInterface>('ProjectServiceInterface');
+  const projectsGroupByCompany = await projectService.groupByCompany();
 
-  // const service = container.resolve<ExperienceServiceInterface>('ExperienceServiceInterface');
-  // await service.all();
+  const experienceService = container.resolve<ExperienceServiceInterface>('ExperienceServiceInterface');
+  const experiences = await experienceService.all();
 
-  // const service = container.resolve<CertServiceInterface>('CertServiceInterface');
-  // await service.all();
+  const certService = container.resolve<CertServiceInterface>('CertServiceInterface');
+  const certs = await certService.allCerts();
 
-  const service = container.resolve<ProfileServiceInterface>('ProfileServiceInterface');
-  const profile = await service.profile();
+  const profileService = container.resolve<ProfileServiceInterface>('ProfileServiceInterface');
+  const profile = await profileService.profile();
 
   return (
     <>
@@ -37,20 +37,25 @@ export default async function Home() {
           <Avatar url={profile.icon?.external.url} />
           <Title title={profile.name[0].plain_text} />
           <AboutMe profile={profile} />
-          <Experience />
+          <Experience experiences={experiences} />
+          <Skill 
+            frontends={await projectService.groupByFrontend()} 
+            backends={await projectService.groupByBackend()} 
+            languages={await projectService.groupByLanguage()} 
+            webDbServers={await projectService.groupByWebDbServer()} 
+          />
+          <Projects projectsGroupByCompany={projectsGroupByCompany} />
           <div className="flex flex-wrap xl:flex-row -mx-4 mt-4">
             <div className="w-full lg:w-1/2 p-4">
               <Education />
             </div>
             <div className="w-full lg:w-1/2 p-4">
-              <License />
-            </div>
-            <div className="w-full lg:w-1/2 p-4">
               <Patents />
             </div>
+            <div className="w-full p-4">
+              <License licenses={certs} />
+            </div>
           </div>
-          <Skill />
-          <Projects />
         </div>
       </main>
     </>

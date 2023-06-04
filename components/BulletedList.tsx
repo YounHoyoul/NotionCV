@@ -7,7 +7,7 @@ type Props = {
 export default function BulletedList({ content }: Props) {
   return (
     <ul className="list-disc pl-4">
-      {content.map((item, index) => <li className="" key={index}><Text text={item.rich_text} /></li>)}
+      {content.map((item, index) => <li className="" key={index}><Text text={item.rich_text} fontSize='sm' /></li>)}
     </ul>
   )
 }

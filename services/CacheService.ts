@@ -5,7 +5,7 @@ export default class CacheService implements CacheServiceInterface {
     readonly cache: NodeCache;
 
     constructor() {
-        this.cache = new NodeCache({ stdTTL: 100, checkperiod: 120 });
+        this.cache = new NodeCache();
     }
 
     get(key: string) {
@@ -20,22 +20,22 @@ export default class CacheService implements CacheServiceInterface {
         return this.cache.set(key, value);
     }
 
-    remember(key: string, ttl: number, callback: Function) {
+    async remember(key: string, ttl: number, callback: Function) {
         let value = this.get(key);
 
         if (!value) {
-            value = callback();
+            value = await callback();
             this.put(key, value, ttl);
         }
 
         return value;
     }
 
-    rememberForever(key: string, callback: Function) {
+    async rememberForever(key: string, callback: Function) {
         let value = this.get(key);
 
         if (!value) {
-            value = callback();
+            value = await callback();
             this.put(key, value);
         }
 

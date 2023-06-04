@@ -7,7 +7,7 @@ type Props = {
 export default function Paragraph({ content }: Props) {
   return (
     <>
-      {content.map((item, index) => <Text key={index} text={item.rich_text} />)}
+      {content.map((item, index) => <Text key={index} text={item.rich_text} fontSize='sm' />)}
     </>
   )
 }
