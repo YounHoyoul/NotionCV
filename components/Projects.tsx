@@ -5,11 +5,7 @@ import Text from "./Text";
 import ProjectItem from "./ProjectItem";
 
 type Props = {
-  projectsGroupByCompany: {
-    company: string,
-    workingPeriod: string,
-    projects: Project[]
-  }[]
+  projectsGroupByCompany: ProjectResultSet[]
 }
 
 export default function Projects({ projectsGroupByCompany }: Props) {
@@ -21,7 +17,7 @@ export default function Projects({ projectsGroupByCompany }: Props) {
       <div className="w-full mt-4">
         {projectsGroupByCompany.map((item, index) => {
           return (
-            <ProjectItem key={index} company={item.company} workingPeriod={item.workingPeriod} projects={item.projects} />
+            <ProjectItem key={index} item={item} />
           );
         })}
       </div>

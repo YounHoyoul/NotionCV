@@ -4,7 +4,6 @@ import type ProjectServiceInterface from "@/services/ProjectServiceInterface";
 import type CacheServiceInterface from "@/services/CacheServiceInterface";
 import { container } from "tsyringe";
 
-
 export default class ProjectService implements ProjectServiceInterface {
     private repository: ProjectRepositoryInterface;
     private experienceRepository: ExperienceRepositoryInterface;
@@ -22,11 +21,11 @@ export default class ProjectService implements ProjectServiceInterface {
         });
     }
 
-    async groupByCompany(): Promise<{ company: string, workingPeriod: string, projects: Project[] }[]> {
+    async groupByCompany(): Promise<ProjectResultSet[]> {
         const allExperiences = await this.experienceRepository.all();
         const allProjects = await this.all();
 
-        const result: { company: string, workingPeriod: string, projects: Project[] }[] = [];
+        const result: ProjectResultSet[] = [];
         const allCompanies: string[] = allExperiences.map(experience => experience.name[0].plain_text);
         allCompanies.push('Personal');
 
@@ -63,6 +62,7 @@ export default class ProjectService implements ProjectServiceInterface {
                         if (result.length === 0) {
                             results.push({
                                 name: groupId,
+                                item: item,
                                 projects: [],
                                 workingPeriod: ''
                             });

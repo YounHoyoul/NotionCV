@@ -1,12 +1,10 @@
 import Subtitle from "./Subtitle";
 
 import { FaSuitcase } from 'react-icons/fa';
-import Text from "./Text";
-import Card from "./Card";
-import SelectItems from "./SelectItems";
+import ExperienceCard from "./ExperienceCard";
 
 type Props = {
-  experiences: Experience[]
+  experiences: ExperienceResultSet[]
 }
 
 export default function Experience({ experiences }: Props) {
@@ -18,12 +16,7 @@ export default function Experience({ experiences }: Props) {
       <div className="flex flex-wrap mt-4 gap-4">
         {experiences.map((experience, index) => {
           return (
-            <Card key={index} className="md:basis-1/2-gap-4 lg:basis-1/3-gap-4 xl:basis-1/4-gap-4">
-              <Text text={experience.name} fontSize="md" fontWeight={true} />
-              <SelectItems items={[experience.type, experience.role]} />
-              <p className="text-xs mt-2">{experience.workingPeriod}</p>
-              <Text text={experience.address} fontSize="xs" />
-            </Card>
+            <ExperienceCard experience={experience} key={index} />
           );
         })}
       </div>

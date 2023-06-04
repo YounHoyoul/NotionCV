@@ -132,8 +132,24 @@ type Profile = {
     languages: NotionParagraph[],
 }
 
+type ExperienceResultSet = {
+    company: Experience,
+    projects: Project[],
+    language: SelectItem[],
+    frontend: SelectItem[],
+    backend: SelectItem[],
+    webDbServer: SelectItem[],
+}
+
+type ProjectResultSet = {
+    company: string,
+    workingPeriod: string,
+    projects: Project[]
+}
+
 type SkillResultSet = {
     name: string,
+    item: SelectItem,
     projects: Project[],
     workingPeriod: string
-  }
+}

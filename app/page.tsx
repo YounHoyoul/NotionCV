@@ -21,7 +21,7 @@ export default async function Home() {
   const projectsGroupByCompany = await projectService.groupByCompany();
 
   const experienceService = container.resolve<ExperienceServiceInterface>('ExperienceServiceInterface');
-  const experiences = await experienceService.all();
+  const experiences = await experienceService.allWithProjects();
 
   const certService = container.resolve<CertServiceInterface>('CertServiceInterface');
   const certs = await certService.allCerts();
@@ -38,11 +38,11 @@ export default async function Home() {
           <Title title={profile.name[0].plain_text} />
           <AboutMe profile={profile} />
           <Experience experiences={experiences} />
-          <Skill 
-            frontends={await projectService.groupByFrontend()} 
-            backends={await projectService.groupByBackend()} 
-            languages={await projectService.groupByLanguage()} 
-            webDbServers={await projectService.groupByWebDbServer()} 
+          <Skill
+            frontends={await projectService.groupByFrontend()}
+            backends={await projectService.groupByBackend()}
+            languages={await projectService.groupByLanguage()}
+            webDbServers={await projectService.groupByWebDbServer()}
           />
           <Projects projectsGroupByCompany={projectsGroupByCompany} />
           <div className="flex flex-wrap xl:flex-row -mx-4 mt-4">
