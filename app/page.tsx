@@ -1,3 +1,5 @@
+import { FaGithub } from "react-icons/fa";
+
 import CertServiceInterface from "@/services/CertServiceInterface";
 import ExperienceServiceInterface from "@/services/ExperienceServiceInterface";
 import ProfileServiceInterface from "@/services/ProfileServiceInterface";
@@ -41,6 +43,11 @@ export default async function Home() {
         <div className="flex flex-col gap-4 relative w-full">
           <Avatar url={profile.icon?.external.url} />
           <Title title={profile.name[0].plain_text} />
+          <a href="https://github.com/YounHoyoul/NotionCV" 
+            target="_blank" 
+            className="absolute cursor-pointer right-0 top-[2px]">
+            <FaGithub className="text-4xl text-black dark:text-white"/>
+          </a>
           <div className="flex flex-wrap gap-4">
             <div className="w-full xl:basis-1/3-gap-4">
               <AboutMe profile={profile} />
