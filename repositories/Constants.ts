@@ -37,3 +37,5 @@ export const TITLE_LICENSE = 'License & Certificates';
 export const TITLE_PATENTS = 'Patents';
 export const TITLE_PROJECTS = 'Projects';
 export const TITLE_SKILL = 'Skill';
+
+export const SLEEP = 500;

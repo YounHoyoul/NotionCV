@@ -1,6 +1,6 @@
 
 type Props = {
-  icon?: NotionUrl | NotionEmoji
+  icon?: NotionUrl | NotionEmoji | NotionFile
 }
 
 export default function Icon({ icon }: Props) {
@@ -9,10 +9,14 @@ export default function Icon({ icon }: Props) {
   }
 
   if (icon.type == "external") {
-    return <img src={icon.external.url} className="w-6 h-6" />
+    return <img src={icon.external.url} className="w-6 h-6 rounded" />
+  }
+
+  if (icon.type == "file") {
+    return <img src={icon.file.url} className="w-6 h-6 rounded" />
   }
 
   return (
-    <span className="text-xl">{icon.emoji}</span>
+    <span className="text-lg">{icon.emoji}</span>
   )
 } 

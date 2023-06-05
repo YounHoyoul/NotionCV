@@ -6,8 +6,10 @@ import {
     FIELD_TYPE,
     FIELD_ISSUING_ORGANIZATION,
     FIELD_ISSUE_DATE,
-    FIELD_ID
+    FIELD_ID,
+    SLEEP
 } from './Constants';
+import sleep from "sleep-promise";
 
 export default class CertRepository extends NotionRepository implements CertRepositoryInterface {
     private async convert(results: any[]): Promise<Cert[]> {
@@ -15,7 +17,10 @@ export default class CertRepository extends NotionRepository implements CertRepo
 
         for (const cert of results) {
             const properties = cert[PROPERITES];
+            const page = await this.page(cert[FIELD_ID]) as any;
+            await sleep(SLEEP);
             certs.push({
+                icon: page.icon,
                 name: this.getNotionTitle(properties[FIELD_NAME]),
                 type: this.getSelect(properties[FIELD_TYPE]),
                 issueOrganization: this.getNotionRichText(properties[FIELD_ISSUING_ORGANIZATION]),

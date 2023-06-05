@@ -90,6 +90,14 @@ type NotionEmoji = {
     emoji: string
 }
 
+type NotionFile = {
+    type: 'file',
+    file: {
+        url: string,
+        expiry_time: string
+    }
+}
+
 type NotionBulletedListItem = {
     rich_text: NotionText[],
     color: string
@@ -114,7 +122,7 @@ type Project = {
 }
 
 type Experience = {
-    icon?: NotionUrl | NotionEmoji,
+    icon?: NotionUrl | NotionEmoji | NotionFile,
     name: NotionText[],
     type: SelectItem,
     role: SelectItem,
@@ -123,7 +131,7 @@ type Experience = {
 }
 
 type Cert = {
-    icon?: NotionUrl | NotionEmoji,
+    icon?: NotionUrl | NotionEmoji | NotionFile,
     name: NotionText[],
     type: SelectItem,
     issueOrganization: NotionText[],
@@ -131,7 +139,7 @@ type Cert = {
 }
 
 type Education = {
-    icon?: NotionUrl | NotionEmoji,
+    icon?: NotionUrl | NotionEmoji | NotionFile,
     name: NotionText[],
     degree: NotionText[],
     fieldOfStudy: NotionText[],
@@ -159,7 +167,7 @@ type ExperienceResultSet = {
 
 type ProjectResultSet = {
     company: string,
-    icon?: NotionUrl | NotionEmoji,
+    icon?: NotionUrl | NotionEmoji | NotionFile,
     workingPeriod: string,
     projects: Project[]
 }

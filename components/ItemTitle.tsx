@@ -2,7 +2,7 @@ import Icon from "./Icon";
 
 type Props = {
   items: NotionText[],
-  icon?: NotionUrl | NotionEmoji,
+  icon?: NotionUrl | NotionEmoji | NotionFile,
   children?: React.ReactNode
 };
 

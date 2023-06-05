@@ -1,4 +1,5 @@
-import { PROPERITES, FIELD_NAME, FIELD_TYPE, FIELD_ROLE, FIELD_ADDRESS, FIELD_PERIOD, FIELD_ID } from "./Constants";
+import sleep from "sleep-promise";
+import { PROPERITES, FIELD_NAME, FIELD_TYPE, FIELD_ROLE, FIELD_ADDRESS, FIELD_PERIOD, FIELD_ID, SLEEP } from "./Constants";
 import ExperienceRepositoryInterface from "./ExperienceRepositoryInterface";
 import NotionRepository from "./NotionRepository";
 
@@ -9,6 +10,7 @@ export default class ExperienceRepository extends NotionRepository implements Ex
         for (const experience of results) {
             const properties = experience[PROPERITES];
             const page = await this.page(experience[FIELD_ID]) as any;
+            await sleep(SLEEP);
             experiences.push({
                 icon: page.icon,
                 name: this.getNotionTitle(properties[FIELD_NAME]),

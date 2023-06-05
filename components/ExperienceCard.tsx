@@ -43,8 +43,8 @@ export default function ExperienceCard({ experience }: Props) {
 
   const renderDetail = () => (
     <>
-      <Caret open={false} onClick={handleShow} />
-      <ItemTitle items={experience.company.name} />
+      <Caret open={true} onClick={handleShow} />
+      <ItemTitle items={experience.company.name} icon={experience.company.icon}/>
       <Label label="Working Type" />
       <SelectItems items={[experience.company.type]} />
       <Label label="Role" />
