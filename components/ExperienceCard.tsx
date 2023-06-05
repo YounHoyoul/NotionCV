@@ -20,7 +20,7 @@ export default function ExperienceCard({ experience }: Props) {
 
   const renderSkillset = (title: string, items: SelectItem[]) => {
     return (
-      items && items.length > 0 && <>
+      <>
         <Label label={title} />
         <div className="flex flex-wrap gap-2">
           <LinkedSelectItems title={title} items={items} />
@@ -34,7 +34,7 @@ export default function ExperienceCard({ experience }: Props) {
   const renderSummary = () => (
     <>
       <Caret open={false} onClick={handleShow} />
-      <ItemTitle items={experience.company.name} />
+      <ItemTitle items={experience.company.name} icon={experience.company.icon} />
       <SelectItems items={[experience.company.type, experience.company.role]} />
       <p className="text-xs">{experience.company.workingPeriod}</p>
       <Text text={experience.company.address} fontSize="xs" />

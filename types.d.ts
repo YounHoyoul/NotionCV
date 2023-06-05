@@ -85,6 +85,11 @@ type NotionUrl = {
     }
 }
 
+type NotionEmoji = {
+    type: 'emoji',
+    emoji: string
+}
+
 type NotionBulletedListItem = {
     rich_text: NotionText[],
     color: string
@@ -109,6 +114,7 @@ type Project = {
 }
 
 type Experience = {
+    icon?: NotionUrl | NotionEmoji,
     name: NotionText[],
     type: SelectItem,
     role: SelectItem,
@@ -117,6 +123,7 @@ type Experience = {
 }
 
 type Cert = {
+    icon?: NotionUrl | NotionEmoji,
     name: NotionText[],
     type: SelectItem,
     issueOrganization: NotionText[],
@@ -124,6 +131,7 @@ type Cert = {
 }
 
 type Education = {
+    icon?: NotionUrl | NotionEmoji,
     name: NotionText[],
     degree: NotionText[],
     fieldOfStudy: NotionText[],
@@ -151,6 +159,7 @@ type ExperienceResultSet = {
 
 type ProjectResultSet = {
     company: string,
+    icon?: NotionUrl | NotionEmoji,
     workingPeriod: string,
     projects: Project[]
 }

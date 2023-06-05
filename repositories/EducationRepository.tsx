@@ -6,11 +6,12 @@ import {
     FIELD_DEGREE,
     FIELD_FIELD_OF_STUDY,
     FIELD_START,
-    FIELD_END
+    FIELD_END,
+    FIELD_ID
 } from './Constants';
 
 export default class EducationRepository extends NotionRepository implements EducationRepositoryInterface {
-    private convert(results: any[]): Education[] {
+    private async convert(results: any[]): Promise<Education[]> {
         const educations: Education[] = [];
 
         for (const education of results) {
@@ -28,6 +29,6 @@ export default class EducationRepository extends NotionRepository implements Edu
     }
 
     async all(): Promise<Education[]> {
-        return this.convert(await this.fetchFromDatabase(process.env.EDUCATION_DB_ID!));
+        return await this.convert(await this.fetchFromDatabase(process.env.EDUCATION_DB_ID!));
     }
 }

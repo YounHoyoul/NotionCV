@@ -5,11 +5,12 @@ import {
     FIELD_NAME,
     FIELD_TYPE,
     FIELD_ISSUING_ORGANIZATION,
-    FIELD_ISSUE_DATE
+    FIELD_ISSUE_DATE,
+    FIELD_ID
 } from './Constants';
 
 export default class CertRepository extends NotionRepository implements CertRepositoryInterface {
-    private convert(results: any[]): Cert[] {
+    private async convert(results: any[]): Promise<Cert[]> {
         const certs: Cert[] = [];
 
         for (const cert of results) {
@@ -26,6 +27,6 @@ export default class CertRepository extends NotionRepository implements CertRepo
     }
 
     async all(): Promise<Cert[]> {
-        return this.convert(await this.fetchFromDatabase(process.env.CERT_DB_ID!));
+        return await this.convert(await this.fetchFromDatabase(process.env.CERT_DB_ID!));
     }
 }

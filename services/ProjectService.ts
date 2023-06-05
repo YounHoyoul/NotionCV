@@ -3,15 +3,20 @@ import ExperienceRepositoryInterface from "@/repositories/ExperienceRepositoryIn
 import type ProjectServiceInterface from "@/services/ProjectServiceInterface";
 import type CacheServiceInterface from "@/services/CacheServiceInterface";
 import { container } from "tsyringe";
+import ProfileRepositoryInterface from "@/repositories/ProfileRepositoryInterface";
+
+const EXPERIENCE_PERSONAL = "Personal";
 
 export default class ProjectService implements ProjectServiceInterface {
     private repository: ProjectRepositoryInterface;
     private experienceRepository: ExperienceRepositoryInterface;
+    private profileRepository: ProfileRepositoryInterface;
     private cache: CacheServiceInterface;
 
     constructor() {
         this.repository = container.resolve<ProjectRepositoryInterface>('ProjectRepositoryInterface');
         this.experienceRepository = container.resolve<ExperienceRepositoryInterface>('ExperienceRepositoryInterface');
+        this.profileRepository = container.resolve<ProfileRepositoryInterface>('ProfileRepositoryInterface');
         this.cache = container.resolve<CacheServiceInterface>('CacheServiceInterface');
     }
 
@@ -24,18 +29,25 @@ export default class ProjectService implements ProjectServiceInterface {
     async groupByCompany(): Promise<ProjectResultSet[]> {
         const allExperiences = await this.experienceRepository.all();
         const allProjects = await this.all();
-
+        const profile = await this.profileRepository.profile();
+        
         const result: ProjectResultSet[] = [];
-        const allCompanies: string[] = allExperiences.map(experience => experience.name[0].plain_text);
-        allCompanies.push('Personal');
 
-        for (const company of allCompanies) {
+        for (const company of allExperiences) {
             result.push({
-                company: company,
-                workingPeriod: allExperiences.filter(item => item.name[0].plain_text == company)[0]?.workingPeriod ?? '',
-                projects: allProjects.filter(item => item.company === company)
+                company: company.name[0].plain_text,
+                icon: company.icon,
+                workingPeriod: company.workingPeriod,
+                projects: allProjects.filter(item => item.company === company.name[0].plain_text)
             });
         }
+
+        result.push({
+            company: EXPERIENCE_PERSONAL,
+            icon: profile.icon,
+            workingPeriod: 'N/A',
+            projects: allProjects.filter(item => item.company === EXPERIENCE_PERSONAL)
+        });
 
         return result;
     }

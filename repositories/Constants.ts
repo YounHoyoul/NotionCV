@@ -1,5 +1,6 @@
 
 export const PROPERITES = 'properties';
+export const FIELD_ID = 'id';
 export const FIELD_NAME = 'Name';
 export const FIELD_TYPE = 'Type';
 export const FIELD_ROLE = 'Role';

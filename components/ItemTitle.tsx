@@ -1,14 +1,17 @@
+import Icon from "./Icon";
 
 type Props = {
   items: NotionText[],
+  icon?: NotionUrl | NotionEmoji,
   children?: React.ReactNode
 };
 
-export default function ItemTitle({ items, children }: Props) {
+export default function ItemTitle({ items, icon, children }: Props) {
   return (
-    <p className="text-md font-medium pr-4">
+    <p className="text-md font-medium pr-4 flex gap-2 items-center rounded">
+      <Icon icon={icon} />
       {children}
-      {items[0].plain_text}
+      <span>{items[0].plain_text}</span>
     </p>
   )
 }

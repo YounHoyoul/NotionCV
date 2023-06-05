@@ -18,7 +18,7 @@ export default function Education({ educations }: Props) {
       <div className="flex flex-wrap mt-4 gap-4">
         {educations.map((item, index) =>
           <Card key={index}>
-            <ItemTitle items={item.name} />
+            <ItemTitle items={item.name} icon={item.icon}/>
             <p className="text-sm mt-2">{item.degree[0].plain_text}</p>
             <p className="text-xs mt-2">{item.fieldOfStudy[0].plain_text}</p>
             <p className="text-xs mt-2">{item.end.start}</p>
