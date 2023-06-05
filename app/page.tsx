@@ -14,6 +14,7 @@ import Skill from "@/components/Skill";
 import Projects from "@/components/Projects";
 import Avatar from "@/components/Avatar";
 import Title from "@/components/Title";
+import EducationServiceInterface from "@/services/EducationServiceInterface";
 
 export default async function Home() {
 
@@ -26,6 +27,9 @@ export default async function Home() {
   const certService = container.resolve<CertServiceInterface>('CertServiceInterface');
   const certs = await certService.allCerts();
   const patents = await certService.allPatents();
+
+  const educationService = container.resolve<EducationServiceInterface>('EducationServiceInterface');
+  const educations = await educationService.all();
 
   const profileService = container.resolve<ProfileServiceInterface>('ProfileServiceInterface');
   const profile = await profileService.profile();
@@ -57,7 +61,7 @@ export default async function Home() {
               <License licenses={certs} />
             </div>
             <div className="w-full sm:basis-1/2-gap-4">
-              <Education />
+              <Education educations={educations}/>
             </div>
             <div className="w-full sm:basis-1/2-gap-4">
               <Patents patents={patents} />

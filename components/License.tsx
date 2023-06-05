@@ -4,6 +4,7 @@ import Subtitle from "./Subtitle";
 import { FaCertificate } from 'react-icons/fa';
 import Text from "./Text";
 import CertCard from "./CertCard";
+import { TITLE_LICENSE } from "@/repositories/Constants";
 
 type Props = {
   licenses: Cert[]
@@ -12,7 +13,7 @@ type Props = {
 export default function License({ licenses }: Props) {
   return (
     <>
-      <Subtitle title="License & Certificates">
+      <Subtitle title={TITLE_LICENSE}>
         <FaCertificate className="text-xl text-purple-700 dark:fuchsia-300" />
       </Subtitle>
       <div className="flex flex-wrap mt-4 gap-4">

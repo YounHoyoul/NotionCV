@@ -1,7 +1,9 @@
+import clsx from "clsx";
+
 type Props = {
   text: NotionText[],
   fontSize?: "xs" | "sm" | "md" | "lg" | "xl",
-  fontWeight?: boolean,
+  fontWeight?: "normal" | "medium" | "semibold" | "bold" | undefined,
   children?: React.ReactNode
 };
 
@@ -11,13 +13,23 @@ class TextDecorator {
     throw new Error('draw is not implemented');
   }
   parseClassname(item: NotionText) {
-    return [
+    return clsx(
       this.fontSize,
       this.fontWeight,
-      item.annotations.bold ? "font-bold" : '',
-      item.annotations.italic ? "italic" : '',
-      item.annotations.color === 'gray' ? "text-gray-600 dark:text-gray-300" : ''
-    ].join(' ').trim()
+      item.href && 'hover:underline',
+      !this.fontWeight && item.annotations.bold && "font-semibold",
+      item.annotations.italic && "italic",
+      item.annotations.color === 'gray' && "text-gray-600 dark:text-gray-300",
+      item.annotations.color === 'default' && "text-slate-600 dark:text-slate-300",
+      item.annotations.color === 'green' && "text-green-600 dark:text-green-300",
+      item.annotations.color === 'red' && "text-red-600 dark:text-red-300",
+      item.annotations.color === 'blue' && "text-blue-600 dark:text-blue-300",
+      item.annotations.color === 'brown' && "text-amber-600 dark:text-amber-300",
+      item.annotations.color === 'purple' && "text-purple-600 dark:text-purple-300",
+      item.annotations.color === 'orange' && "text-orange-600 dark:text-orange-300",
+      item.annotations.color === 'yellow' && "text-yellow-600 dark:text-yellow-300",
+      item.annotations.color === 'pink' && "text-pink-600 dark:text-pink-300",
+    );
   };
 }
 
@@ -48,8 +60,8 @@ class CodeDecorator extends TextDecorator {
 class AnchorDecorator extends TextDecorator {
   draw(item: NotionText, index: number) {
     return this.next
-      ? <a href={item.href}>{this.next.draw(item, index)}</a>
-      : <a key={index} className={this.parseClassname(item)} href={item.href}>{item.text.content}</a>
+      ? <a href={item.href} className="underline">{this.next.draw(item, index)}</a>
+      : <a key={index} className={this.parseClassname(item)} href={item.href} >{item.text.content}</a>
   }
 }
 
@@ -62,22 +74,11 @@ class SpanDecorator extends TextDecorator {
 }
 
 export default function Text({ text, fontSize, fontWeight, children }: Props) {
-  const fontSizeVariables = {
-    "xs": "text-xs",
-    "sm": "text-sm",
-    "md": "text-md",
-    "lg": "text-lg",
-    "xl": "text-xl",
-  };
-
-  let fontSizeClassName = "sm";
-  let fontWeightClassName = "";
-
-  if (fontSize) fontSizeClassName = fontSizeVariables[fontSize];
-  if (fontWeight === true) fontWeightClassName = "font-bold";
+  const fontSizeClassName = `text-${fontSize ?? 'sm'}`;
+  const fontWeightClassName = fontWeight ? `font-${fontWeight}` : '';
 
   return (
-    <p className={`py-2`}>
+    <p>
       {text.map((item, index) => {
         let decorator = item.href ? new AnchorDecorator(fontSizeClassName, fontWeightClassName) : new SpanDecorator(fontSizeClassName, fontWeightClassName);
         decorator = item.annotations.code ? new CodeDecorator(fontSizeClassName, fontWeightClassName, decorator) : decorator;

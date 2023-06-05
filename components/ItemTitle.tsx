@@ -6,7 +6,7 @@ type Props = {
 
 export default function ItemTitle({ items, children }: Props) {
   return (
-    <p className="text-md font-medium">
+    <p className="text-md font-medium pr-4">
       {children}
       {items[0].plain_text}
     </p>

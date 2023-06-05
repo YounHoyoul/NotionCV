@@ -20,10 +20,15 @@ import ProfileRepositoryInterface from "@/repositories/ProfileRepositoryInterfac
 import ProfileRepository from "@/repositories/ProfileRepository";
 import ProfileServiceInterface from "@/services/ProfileServiceInterface";
 import ProfileService from "@/services/ProfileService";
+import EducationRepository from "@/repositories/EducationRepository";
+import EducationRepositoryInterface from "@/repositories/EducationRepositoryInterface";
+import EducationService from "@/services/EducationService";
+import EducationServiceInterface from "@/services/EducationServiceInterface";
 
 container.register<ProjectRepositoryInterface>('ProjectRepositoryInterface', ProjectRepository);
 container.register<ExperienceRepositoryInterface>('ExperienceRepositoryInterface', ExperienceRepository);
 container.register<CertRepositoryInterface>('CertRepositoryInterface', CertRepository);
+container.register<EducationRepositoryInterface>('EducationRepositoryInterface', EducationRepository);
 container.register<ProfileRepositoryInterface>('ProfileRepositoryInterface', ProfileRepository);
 
 container.register<CacheServiceInterface>('CacheServiceInterface', CacheService);
@@ -31,6 +36,7 @@ container.register<StorageServiceInterface>('StorageServiceInterface', StorageSe
 container.register<ProjectServiceInterface>('ProjectServiceInterface', ProjectService);
 container.register<ExperienceServiceInterface>('ExperienceServiceInterface', ExperienceService);
 container.register<CertServiceInterface>('CertServiceInterface', CertService);
+container.register<EducationServiceInterface>('EducationServiceInterface', EducationService);
 container.register<ProfileServiceInterface>('ProfileServiceInterface', ProfileService);
 
 container.registerInstance<NotionClient>('NotionClient', new NotionClient({ auth: process.env.NOTION_API_KEY }));

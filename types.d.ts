@@ -123,6 +123,14 @@ type Cert = {
     issueDate: Period
 }
 
+type Education = {
+    name: NotionText[],
+    degree: NotionText[],
+    fieldOfStudy: NotionText[],
+    start: Period
+    end: Period
+}
+
 type Profile = {
     name: NotionText[],
     cover: NotionUrl,

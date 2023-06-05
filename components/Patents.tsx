@@ -1,10 +1,8 @@
 
-import Card from "./Card";
 import Subtitle from "./Subtitle";
-
 import { FaFileAlt } from 'react-icons/fa';
-import Text from "./Text";
 import CertCard from "./CertCard";
+import { TITLE_PATENTS } from "@/repositories/Constants";
 
 type Props = {
   patents: Cert[]
@@ -13,7 +11,7 @@ type Props = {
 export default function License({ patents }: Props) {
   return (
     <>
-      <Subtitle title="Patents">
+      <Subtitle title={TITLE_PATENTS}>
         <FaFileAlt className="text-xl text-purple-700 dark:fuchsia-300" />
       </Subtitle>
       <div className="flex flex-wrap mt-4 gap-4">

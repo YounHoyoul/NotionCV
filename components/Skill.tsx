@@ -1,7 +1,9 @@
+import slugify from "slugify";
 import SkillItem from "./SkillItem";
 import Subtitle from "./Subtitle";
 
 import { FaTools } from 'react-icons/fa';
+import { TITLE_BACKEND, TITLE_FRONTEND, TITLE_LANGUAGE, TITLE_SKILL, TITLE_WEBDBSEERVER } from "@/repositories/Constants";
 
 type Props = {
   frontends: SkillResultSet[],
@@ -19,7 +21,7 @@ export default function Skill({ languages, frontends, backends, webDbServers }: 
         </div>
         {items && items.length > 0 && items.map((item, index) => {
           return (
-            <SkillItem key={index} item={item} />
+            <SkillItem key={index} item={item} id={slugify(`${title} ${item.name}`)}/>
           );
         })}
       </div>
@@ -28,14 +30,14 @@ export default function Skill({ languages, frontends, backends, webDbServers }: 
   }
   return (
     <>
-      <Subtitle title="Skill">
+      <Subtitle title={TITLE_SKILL}>
         <FaTools className="text-xl text-purple-700 dark:fuchsia-300" />
       </Subtitle>
       <div className="w-full flex flex-wrap gap-4">
-        {renderSkillset("Language", languages)}
-        {renderSkillset("Frontend", frontends)}
-        {renderSkillset("Backend", backends)}
-        {renderSkillset("Web/DB Servers", webDbServers)}
+        {renderSkillset(TITLE_LANGUAGE, languages)}
+        {renderSkillset(TITLE_FRONTEND, frontends)}
+        {renderSkillset(TITLE_BACKEND, backends)}
+        {renderSkillset(TITLE_WEBDBSEERVER, webDbServers)}
       </div>
     </>
   )
