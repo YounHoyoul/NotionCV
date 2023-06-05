@@ -13,8 +13,10 @@ type Props = {
 export default function Skill({ languages, frontends, backends, webDbServers }: Props) {
   const renderSkillset = (title: string, items: SkillResultSet[]) => {
     return (
-      <div className="w-full md:basis-1/2-gap-4 lg:basis-1/3-gap-4 xl:basis-1/4-gap-4">
-        <Subtitle title={title} />
+      <div className="w-full sm:basis-1/2-gap-4 lg:basis-1/3-gap-4 xl:basis-1/4-gap-4">
+        <div className="p-4 cursor-pointer border-b-[1px] border-slate-400">
+          <h2 className={`text-md flex gap-2`}>{title}</h2>
+        </div>
         {items && items.length > 0 && items.map((item, index) => {
           return (
             <SkillItem key={index} item={item} />
@@ -25,16 +27,16 @@ export default function Skill({ languages, frontends, backends, webDbServers }: 
     );
   }
   return (
-    <div className="mt-4">
+    <>
       <Subtitle title="Skill">
         <FaTools className="text-xl text-purple-700 dark:fuchsia-300" />
       </Subtitle>
-      <div className="w-full mt-4 flex flex-wrap gap-4">
-          {renderSkillset("Language", languages)}
-          {renderSkillset("Frontend", frontends)}
-          {renderSkillset("Backend", backends)}
-          {renderSkillset("Web/DB Servers", webDbServers)}
+      <div className="w-full flex flex-wrap gap-4">
+        {renderSkillset("Language", languages)}
+        {renderSkillset("Frontend", frontends)}
+        {renderSkillset("Backend", backends)}
+        {renderSkillset("Web/DB Servers", webDbServers)}
       </div>
-    </div>
+    </>
   )
 }

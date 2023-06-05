@@ -25,6 +25,7 @@ export default async function Home() {
 
   const certService = container.resolve<CertServiceInterface>('CertServiceInterface');
   const certs = await certService.allCerts();
+  const patents = await certService.allPatents();
 
   const profileService = container.resolve<ProfileServiceInterface>('ProfileServiceInterface');
   const profile = await profileService.profile();
@@ -33,11 +34,17 @@ export default async function Home() {
     <>
       <Cover url={profile.cover?.external.url} />
       <main className="flex min-h-screen flex-col items-center justify-between py-24 px-4 md:px-8 lg:px-24">
-        <div className="relative w-full">
+        <div className="flex flex-col gap-4 relative w-full">
           <Avatar url={profile.icon?.external.url} />
           <Title title={profile.name[0].plain_text} />
-          <AboutMe profile={profile} />
-          <Experience experiences={experiences} />
+          <div className="flex flex-wrap gap-4">
+            <div className="w-full xl:basis-1/3-gap-4">
+              <AboutMe profile={profile} />
+            </div>
+            <div className="w-full xl:basis-2/3-gap-4">
+              <Experience experiences={experiences} />
+            </div>
+          </div>
           <Skill
             frontends={await projectService.groupByFrontend()}
             backends={await projectService.groupByBackend()}
@@ -45,15 +52,15 @@ export default async function Home() {
             webDbServers={await projectService.groupByWebDbServer()}
           />
           <Projects projectsGroupByCompany={projectsGroupByCompany} />
-          <div className="flex flex-wrap xl:flex-row -mx-4 mt-4">
-            <div className="w-full lg:w-1/2 p-4">
+          <div className="flex flex-wrap gap-4">
+            <div className="w-full">
+              <License licenses={certs} />
+            </div>
+            <div className="w-full sm:basis-1/2-gap-4">
               <Education />
             </div>
-            <div className="w-full lg:w-1/2 p-4">
-              <Patents />
-            </div>
-            <div className="w-full p-4">
-              <License licenses={certs} />
+            <div className="w-full sm:basis-1/2-gap-4">
+              <Patents patents={patents} />
             </div>
           </div>
         </div>

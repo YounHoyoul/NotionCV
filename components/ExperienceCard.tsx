@@ -4,6 +4,7 @@ import { useState } from "react";
 import SelectItems from "./SelectItems";
 import Text from "./Text";
 import Caret from "./Caret";
+import ItemTitle from "./ItemTitle";
 
 type Props = {
   experience: ExperienceResultSet
@@ -22,18 +23,18 @@ export default function ExperienceCard({ experience }: Props) {
   };
 
   return (
-    <div className={`shadow border bg-white dark:border-0 dark:bg-gray-800 rounded p-4 w-full md:basis-1/2-gap-4 lg:basis-1/3-gap-4 xl:basis-1/4-gap-4 flex flex-col gap-2 relative cursor-pointer`}
+    <div className={`shadow border bg-white dark:border-0 dark:bg-gray-800 rounded p-4 w-full sm:basis-1/2-gap-4 flex flex-col gap-2 relative cursor-pointer`}
       onClick={() => show ? setShow(false) : setShow(true)}
       onMouseLeave={() => setShow(false)}>
       <Caret open={false} />
-      <Text text={experience.company.name} fontSize="md" fontWeight={true} />
+      <ItemTitle items={experience.company.name}/>
       <SelectItems items={[experience.company.type, experience.company.role]} />
       <p className="text-xs mt-2">{experience.company.workingPeriod}</p>
       <Text text={experience.company.address} fontSize="xs" />
 
       <div className={show ? 'absolute shadow w-full-card -left-[1px] -top-[1px] block p-4 border bg-white rounded dark:bg-gray-800 p-4 z-10 flex flex-col gap-2 ' : `hidden`}>
         <Caret open={true} />
-        <Text text={experience.company.name} fontSize="md" fontWeight={true} />
+        <ItemTitle items={experience.company.name}/>
         <SelectItems items={[experience.company.type, experience.company.role]} />
         <p className="text-xs mt-2">{experience.company.workingPeriod}</p>
         <Text text={experience.company.address} fontSize="xs" />

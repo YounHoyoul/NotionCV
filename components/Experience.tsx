@@ -9,7 +9,7 @@ type Props = {
 
 export default function Experience({ experiences }: Props) {
   return (
-    <div className="mt-4">
+    <>
       <Subtitle title="Experience">
         <FaSuitcase className="text-xl text-purple-700 dark:fuchsia-300" />
       </Subtitle>
@@ -20,6 +20,6 @@ export default function Experience({ experiences }: Props) {
           );
         })}
       </div>
-    </div>
+    </>
   )
 }

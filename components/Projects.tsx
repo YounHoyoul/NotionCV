@@ -10,17 +10,17 @@ type Props = {
 
 export default function Projects({ projectsGroupByCompany }: Props) {
   return (
-    <div className="mt-4">
+    <>
       <Subtitle title="Projects">
         <FaCode className="text-xl text-purple-700 dark:fuchsia-300" />
       </Subtitle>
-      <div className="w-full mt-4">
+      <div className="w-full">
         {projectsGroupByCompany.map((item, index) => {
           return (
             <ProjectItem key={index} item={item} />
           );
         })}
       </div>
-    </div>
+    </>
   )
 }
