@@ -3,8 +3,7 @@
 import slugify from 'slugify';
 import clsx from 'clsx';
 
-import { useState } from "react";
-import SelectItem from "./SelectItem";
+import { MouseEvent, useEffect, useState } from "react";
 import Text from "./Text";
 import Caret from "./Caret";
 import ItemTitle from "./ItemTitle";
@@ -13,6 +12,7 @@ import LinkedSelectItems from './LinkedSelectItems';
 import Label from './Label';
 import SelectItems from './SelectItems';
 import Anchor from './Anchor';
+import { stopPropagation } from '@/lib/stopPropagation';
 
 type Props = {
   project: Project
@@ -21,22 +21,29 @@ type Props = {
 export default function ProjectCard({ project }: Props) {
   const [show, setShow] = useState(false);
 
+  useEffect(() => {
+    document.addEventListener('click', () => setShow(false));
+  }, []);
+
+  const handleClicked = (e: MouseEvent<HTMLSpanElement>) => {
+    stopPropagation(e);
+    setShow(!show);
+  }
+
   const renderSkillset = (title: string, items: SelectItem[]) => {
     return (
       items && items.length > 0 && <>
         <Label label={title} />
         <div className="flex flex-wrap gap-2">
-          <LinkedSelectItems title={title} items={items} />
+          <LinkedSelectItems title={title} items={items} onClick={handleClicked} />
         </div>
       </>
     );
   };
 
-  const handleShow = () => show ? setShow(false) : setShow(true);
-
   const renderSummary = () => (
     <>
-      <Caret open={false} onClick={handleShow} />
+      <Caret open={false} onClick={handleClicked} />
       <ItemTitle items={project.name} />
       <p className="text-xs">{project.workingPeriod}</p>
       <SelectItems items={[project.role]} />
@@ -51,12 +58,12 @@ export default function ProjectCard({ project }: Props) {
 
   const renderDetail = () => (
     <>
-      <Caret open={true} onClick={handleShow} />
+      <Caret open={true} onClick={handleClicked} />
       <ItemTitle items={project.name} />
       <Anchor link={`#${slugify(project.company)}`}>{project.company}</Anchor>
-      <Label label="Working Period"/>
+      <Label label="Working Period" />
       <p className="text-xs">{project.workingPeriod}</p>
-      <Label label="Working Role"/>
+      <Label label="Working Role" />
       <SelectItems items={[project.role]} />
       {renderSkillset(TITLE_LANGUAGE, project.language)}
       {renderSkillset(TITLE_FRONTEND, project.frontend)}
@@ -73,7 +80,7 @@ export default function ProjectCard({ project }: Props) {
         'rounded', 'p-4', 'w-full', 'sm:basis-1/2-gap-4', 'lg:basis-1/3-gap-4',
         'xl:basis-1/4-gap-4 flex', 'flex-col', 'gap-2', 'relative'
       )}
-      onMouseLeave={() => setShow(false)}>
+      onClick={(e) => stopPropagation(e)}>
       {renderSummary()}
       <div className={clsx(
         'absolute', 'shadow', 'w-full-card', '-left-[1px]', '-top-[1px]', 'block', 'p-4',

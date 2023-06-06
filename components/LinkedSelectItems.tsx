@@ -6,19 +6,21 @@ import clsx from "clsx";
 import { MouseEvent } from "react";
 import { scrollSmoothlyTo } from "@/lib/scrollTo";
 
-
 type Props = {
   title: string,
-  items: SelectItem[]
+  items: SelectItem[],
+  onClick?: (e:MouseEvent<HTMLElement>) => void
 };
 
-export default function LinkedSelectItems({ title, items }: Props) {
+export default function LinkedSelectItems({ title, items, onClick }: Props) {
   const handleClicked = (event: MouseEvent<HTMLSpanElement>) => {
     event.preventDefault();
     const target = event.target as HTMLSpanElement;
     const parentElement = target.parentElement as HTMLAnchorElement;
     const id = parentElement.getAttribute('href') as string;
     if (id.startsWith("#")) scrollSmoothlyTo(id);
+
+    onClick && onClick(event);
   };
 
   return (

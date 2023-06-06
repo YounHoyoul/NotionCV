@@ -7,15 +7,18 @@ import { MouseEvent } from "react";
 type Props = {
   link: string,
   className?: string,
-  children: React.ReactNode
+  children: React.ReactNode,
+  onClick?: (e: MouseEvent<HTMLElement>) => void
 };
 
-export default function Anchor({ link, className, children }: Props) {
+export default function Anchor({ link, className, children, onClick }: Props) {
   const handleClicked = (event: MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
     const target = event.target as HTMLAnchorElement;
     const id = target.getAttribute('href') as string;
     if (id.startsWith("#")) scrollSmoothlyTo(id);
+    
+    onClick && onClick(event);
   };
 
   return (

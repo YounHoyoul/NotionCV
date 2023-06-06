@@ -1,8 +1,9 @@
+import { MouseEvent } from "react";
 import { RxCaretDown, RxCaretRight } from "react-icons/rx";
 
 type Props = {
   open: boolean,
-  onClick?: () => void
+  onClick?: (event:MouseEvent<HTMLSpanElement>) => void
 }
 
 export default function Caret({ open, onClick }: Props) {
