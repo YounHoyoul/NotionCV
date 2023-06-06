@@ -12,6 +12,7 @@ import { TITLE_BACKEND, TITLE_FRONTEND, TITLE_LANGUAGE, TITLE_WEBDBSEERVER } fro
 import LinkedSelectItems from './LinkedSelectItems';
 import Label from './Label';
 import SelectItems from './SelectItems';
+import Anchor from './Anchor';
 
 type Props = {
   project: Project
@@ -52,7 +53,7 @@ export default function ProjectCard({ project }: Props) {
     <>
       <Caret open={true} onClick={handleShow} />
       <ItemTitle items={project.name} />
-      <a href={`#${slugify(project.company)}`} className="text-sm my-2 hover:underline">{project.company}</a>
+      <Anchor link={`#${slugify(project.company)}`}>{project.company}</Anchor>
       <Label label="Working Period"/>
       <p className="text-xs">{project.workingPeriod}</p>
       <Label label="Working Role"/>

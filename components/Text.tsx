@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import Anchor from "./Anchor";
 
 type Props = {
   text: NotionText[],
@@ -16,7 +17,6 @@ class TextDecorator {
     return clsx(
       this.fontSize,
       this.fontWeight,
-      item.href && 'hover:underline',
       !this.fontWeight && item.annotations.bold && "font-semibold",
       item.annotations.italic && "italic",
       item.annotations.color === 'gray' && "text-gray-600 dark:text-gray-300",
@@ -60,8 +60,8 @@ class CodeDecorator extends TextDecorator {
 class AnchorDecorator extends TextDecorator {
   draw(item: NotionText, index: number) {
     return this.next
-      ? <a href={item.href} className="underline">{this.next.draw(item, index)}</a>
-      : <a key={index} className={this.parseClassname(item)} href={item.href} >{item.text.content}</a>
+      ? <Anchor link={item.href!} className="">{this.next.draw(item, index)}</Anchor>
+      : <Anchor key={index} link={item.href!} className={this.parseClassname(item)}>{item.text.content}</Anchor>
   }
 }
 

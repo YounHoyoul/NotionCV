@@ -10,6 +10,7 @@ import { TITLE_BACKEND, TITLE_FRONTEND, TITLE_LANGUAGE, TITLE_WEBDBSEERVER } fro
 import LinkedSelectItems from "./LinkedSelectItems";
 import clsx from "clsx";
 import Label from "./Label";
+import Anchor from "./Anchor";
 
 type Props = {
   experience: ExperienceResultSet
@@ -62,9 +63,9 @@ export default function ExperienceCard({ experience }: Props) {
       <ul className="list-disc pl-4">
         {experience.projects.map((item, index) => (
           <li key={index} className="text-xs">
-            <a href={`#${slugify(item.name[0].plain_text)}`} className="hover:underline">
+            <Anchor link={`#${slugify(item.name[0].plain_text)}`}>
               {item.name[0].plain_text} · {item.totalMonths} mons
-            </a>
+            </Anchor>
           </li>))}
       </ul>
     </>

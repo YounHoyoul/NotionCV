@@ -5,6 +5,7 @@ import SelectItem from './SelectItem';
 import Caret from './Caret';
 import slugify from 'slugify';
 import clsx from 'clsx';
+import Anchor from './Anchor';
 
 type Props = {
   id: string,
@@ -27,10 +28,10 @@ export default function SkillItem({ id, item }: Props) {
       </h2>
       <ul className={clsx("list-disc pl-8 pr-4 py-1 my-2", !open && "hidden")}>
         {item.projects.map((item, index) => <li className="text-sm py-1" key={index}>
-          <a href={`#${slugify(item.name[0].plain_text)}`} className="hover:underline">
+          <Anchor link={`#${slugify(item.name[0].plain_text)}`}>
             {item.name[0].plain_text}
             <span className="text-xs"> · {item.totalMonths} mos</span>
-          </a>
+          </Anchor>
         </li>)}
       </ul>
     </div>
