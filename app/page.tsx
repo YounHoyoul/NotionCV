@@ -48,17 +48,22 @@ export default async function Home() {
         <div className="flex flex-col gap-4 relative w-full">
           <Avatar url={profile.icon?.external.url} />
           <Title title={profile.name[0].plain_text} />
-          <a href="https://github.com/YounHoyoul/NotionCV" 
-            target="_blank" 
+          <div className="rounded bg-gray-300 dark:bg-gray-900 p-4 text-sm">
+            Welcome to my online CV! I&apos;m excited to share my skills and experiences with you.
+            Explore my qualifications and achievements to discover more about my professional journey.
+            Feel free to reach out for any inquiries or opportunities. Thank you for visiting!
+          </div>
+          <a href="https://github.com/YounHoyoul/NotionCV"
+            target="_blank"
             className="absolute cursor-pointer right-0 top-[2px]">
-            <FaGithub className="text-4xl text-black dark:text-white"/>
+            <FaGithub className="text-4xl text-black dark:text-white" />
           </a>
           <div className="flex flex-wrap gap-4">
             <div className="w-full xl:basis-1/3-gap-4">
               <AboutMe profile={profile} />
             </div>
             <div className="w-full xl:basis-2/3-gap-4">
-              <Experience experiences={experiences} eventBus={eventBus}/>
+              <Experience experiences={experiences} eventBus={eventBus} />
             </div>
           </div>
           <Skill
@@ -73,7 +78,7 @@ export default async function Home() {
               <License licenses={certs} />
             </div>
             <div className="w-full sm:basis-1/2-gap-4 lg:basis-1/3-gap-4">
-              <Education educations={educations}/>
+              <Education educations={educations} />
             </div>
             <div className="w-full sm:basis-1/2-gap-4 lg:basis-1/3-gap-4">
               <Patents patents={patents} />
