@@ -1,12 +1,12 @@
 "use client"
 
-import { MouseEvent, useEffect, useState } from 'react';
+import clsx from 'clsx';
+import { useEffect, useState } from 'react';
+
 import SelectItem from './SelectItem';
 import Caret from './Caret';
-import clsx from 'clsx';
 import Anchor from './Anchor';
 import { slug } from '@/lib/slugify';
-import { stopPropagation } from '@/lib/stopPropagation';
 import { closePanelOnDocumentClicked } from '@/lib/closePanelOnDocucmentClicked';
 
 type Props = {
@@ -21,10 +21,7 @@ export default function SkillItem({ id, item }: Props) {
     closePanelOnDocumentClicked(id, () => setShow(false));
   }, []);
 
-  const handleClicked = (e: MouseEvent<HTMLSpanElement>) => {
-    stopPropagation(e);
-    setShow(!show);
-  }
+  const handleClicked = () => setShow(!show);
 
   const renderTitle = () => (
     <>
@@ -36,7 +33,7 @@ export default function SkillItem({ id, item }: Props) {
 
   const renderSummary = () => (
     <>
-      <Caret open={show} onClick={handleClicked} />
+      <Caret open={false} onClick={handleClicked} />
       <h2 className={clsx("text-md w-full pr-20 p-4",)}>
         {renderTitle()}
       </h2>
@@ -45,7 +42,7 @@ export default function SkillItem({ id, item }: Props) {
 
   const renderPanel = () => (
     <>
-      <Caret open={show} onClick={handleClicked} />
+      <Caret open={true} onClick={handleClicked} />
       <h2 className={clsx(
         "text-md", "w-full", "pr-20", "pb-4", "border-b-[1px]", "border-slate-400",
       )}>

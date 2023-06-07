@@ -1,7 +1,7 @@
 "use client";
 
 import clsx from "clsx";
-import React, { MouseEvent, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import SelectItems from "./SelectItems";
 import Text from "./Text";
@@ -29,9 +29,7 @@ export default function ExperienceCard({ experience, eventBus }: Props) {
     closePanelOnDocumentClicked(id, () => setShow(false));
   }, []);
 
-  const handleClicked = (e: MouseEvent<HTMLSpanElement>) => {
-    setShow(!show);
-  }
+  const handleClicked = () => setShow(!show);
 
   const renderSkillset = (title: string, items: SelectItem[]) => {
     return (

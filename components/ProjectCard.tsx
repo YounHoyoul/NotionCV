@@ -1,8 +1,8 @@
 "use client";
 
 import clsx from 'clsx';
+import { useEffect, useState } from "react";
 
-import { MouseEvent, useEffect, useState } from "react";
 import Text from "./Text";
 import Caret from "./Caret";
 import ItemTitle from "./ItemTitle";
@@ -27,9 +27,7 @@ export default function ProjectCard({ project }: Props) {
     closePanelOnDocumentClicked(id, () => setShow(false));
   }, []);
 
-  const handleClicked = (e: MouseEvent<HTMLSpanElement>) => {
-    setShow(!show);
-  }
+  const handleClicked = () => setShow(!show);
 
   const renderSkillset = (title: string, items: SelectItem[]) => {
     return (
