@@ -33,4 +33,12 @@ export default class CertService implements CertServiceInterface {
             .filter(cert => cert.type.name === 'Patent')
             .sort((a, b) => a.issueDate.start <= b.issueDate.start ? 1 : -1);
     }
+
+    async allPapers() : Promise<Cert[]> {
+        const allCerts = await this.all();
+
+        return allCerts
+            .filter(cert => cert.type.name === 'Paper')
+            .sort((a, b) => a.issueDate.start <= b.issueDate.start ? 1 : -1);
+    }
 }

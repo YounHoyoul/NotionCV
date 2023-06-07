@@ -8,7 +8,7 @@ type Props = {
 
 export default function ItemTitle({ items, icon, children }: Props) {
   return (
-    <p className="text-md font-medium pr-4 flex gap-2 items-center rounded">
+    <p className="text-md font-medium pr-4 flex gap-2 items-top rounded">
       <Icon icon={icon} />
       {children}
       <span>{items[0].plain_text}</span>
