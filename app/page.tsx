@@ -18,6 +18,7 @@ import Avatar from "@/components/Avatar";
 import Title from "@/components/Title";
 import EducationServiceInterface from "@/services/EducationServiceInterface";
 import EventBusServiceInterface from "@/services/EventBusServiceInterface";
+import Papers from "@/components/Papers";
 
 export default async function Home() {
 
@@ -30,6 +31,7 @@ export default async function Home() {
   const certService = container.resolve<CertServiceInterface>('CertServiceInterface');
   const certs = await certService.allCerts();
   const patents = await certService.allPatents();
+  const papers = await certService.allPapers();
 
   const educationService = container.resolve<EducationServiceInterface>('EducationServiceInterface');
   const educations = await educationService.all();
@@ -70,11 +72,14 @@ export default async function Home() {
             <div className="w-full">
               <License licenses={certs} />
             </div>
-            <div className="w-full sm:basis-1/2-gap-4">
+            <div className="w-full sm:basis-1/2-gap-4 lg:basis-1/3-gap-4">
               <Education educations={educations}/>
             </div>
-            <div className="w-full sm:basis-1/2-gap-4">
+            <div className="w-full sm:basis-1/2-gap-4 lg:basis-1/3-gap-4">
               <Patents patents={patents} />
+            </div>
+            <div className="w-full sm:basis-1/2-gap-4 lg:basis-1/3-gap-4">
+              <Papers patents={papers} />
             </div>
           </div>
         </div>

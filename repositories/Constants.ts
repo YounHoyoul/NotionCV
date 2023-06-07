@@ -35,6 +35,7 @@ export const TITLE_LANGUAGES = 'Languages';
 export const TITLE_EXPERIENCE = 'Experience';
 export const TITLE_LICENSE = 'License & Certificates';
 export const TITLE_PATENTS = 'Patents';
+export const TITLE_PAPERS = 'Papers';
 export const TITLE_PROJECTS = 'Projects';
 export const TITLE_SKILL = 'Skill';
 
