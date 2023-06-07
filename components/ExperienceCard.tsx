@@ -1,8 +1,7 @@
 "use client";
 
 import clsx from "clsx";
-import slugify from "slugify";
-import { MouseEvent, useEffect, useState } from "react";
+import React, { MouseEvent, useEffect, useState } from "react";
 
 import SelectItems from "./SelectItems";
 import Text from "./Text";
@@ -11,22 +10,26 @@ import ItemTitle from "./ItemTitle";
 import LinkedSelectItems from "./LinkedSelectItems";
 import Label from "./Label";
 import Anchor from "./Anchor";
-import { stopPropagation } from "@/lib/stopPropagation";
 import { TITLE_BACKEND, TITLE_FRONTEND, TITLE_LANGUAGE, TITLE_WEBDBSEERVER } from "@/repositories/Constants";
+import EventBusServiceInterface from "@/services/EventBusServiceInterface";
+import { slug } from "@/lib/slugify";
+import { closePanelOnDocumentClicked } from "@/lib/closePanelOnDocucmentClicked";
 
 type Props = {
-  experience: ExperienceResultSet
+  experience: ExperienceResultSet,
+  eventBus: EventBusServiceInterface
 };
 
-export default function ExperienceCard({ experience }: Props) {
+export default function ExperienceCard({ experience, eventBus }: Props) {
   const [show, setShow] = useState(false);
 
+  const id = slug(experience.company.name[0].plain_text);
+
   useEffect(() => {
-    document.addEventListener('click', () => setShow(false));
+    closePanelOnDocumentClicked(id, () => setShow(false));
   }, []);
 
   const handleClicked = (e: MouseEvent<HTMLSpanElement>) => {
-    stopPropagation(e);
     setShow(!show);
   }
 
@@ -72,7 +75,7 @@ export default function ExperienceCard({ experience }: Props) {
       <ul className="list-disc pl-4">
         {experience.projects.map((item, index) => (
           <li key={index} className="text-xs">
-            <Anchor link={`#${slugify(item.name[0].plain_text)}`} onClick={handleClicked}>
+            <Anchor link={`#${slug(item.name[0].plain_text)}`} onClick={handleClicked}>
               {item.name[0].plain_text} · {item.totalMonths} mons
             </Anchor>
           </li>))}
@@ -81,14 +84,13 @@ export default function ExperienceCard({ experience }: Props) {
   );
 
   return (
-    <div id={slugify(experience.company.name[0].plain_text)}
+    <div id={id}
       className={clsx(
         'shadow', 'border', 'bg-white', 'dark:border-0',
         'dark:bg-gray-800', 'rounded', 'p-4', 'w-full',
         'sm:basis-1/2-gap-4', 'flex', 'flex-col', 'gap-2',
         'relative'
-      )}
-      onClick={e => stopPropagation(e)}>
+      )}>
       {renderSummary()}
       <div className={clsx(
         show && clsx(

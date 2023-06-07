@@ -17,6 +17,7 @@ import Projects from "@/components/Projects";
 import Avatar from "@/components/Avatar";
 import Title from "@/components/Title";
 import EducationServiceInterface from "@/services/EducationServiceInterface";
+import EventBusServiceInterface from "@/services/EventBusServiceInterface";
 
 export default async function Home() {
 
@@ -36,6 +37,8 @@ export default async function Home() {
   const profileService = container.resolve<ProfileServiceInterface>('ProfileServiceInterface');
   const profile = await profileService.profile();
 
+  const eventBus = container.resolve<EventBusServiceInterface>('EventBusServiceInterface');
+
   return (
     <>
       <Cover url={profile.cover?.external.url} />
@@ -53,7 +56,7 @@ export default async function Home() {
               <AboutMe profile={profile} />
             </div>
             <div className="w-full xl:basis-2/3-gap-4">
-              <Experience experiences={experiences} />
+              <Experience experiences={experiences} eventBus={eventBus}/>
             </div>
           </div>
           <Skill

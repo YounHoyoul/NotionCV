@@ -1,4 +1,4 @@
-import { container } from "tsyringe";
+import { Lifecycle, container } from "tsyringe";
 import { Client as NotionClient } from '@notionhq/client';
 import ProjectRepository from "@/repositories/ProjectRepository";
 import CacheService from "@/services/CacheService";
@@ -24,19 +24,22 @@ import EducationRepository from "@/repositories/EducationRepository";
 import EducationRepositoryInterface from "@/repositories/EducationRepositoryInterface";
 import EducationService from "@/services/EducationService";
 import EducationServiceInterface from "@/services/EducationServiceInterface";
+import EventBusServiceInterface from "@/services/EventBusServiceInterface";
+import EventBusService from "@/services/EventBusService";
 
-container.register<ProjectRepositoryInterface>('ProjectRepositoryInterface', ProjectRepository);
-container.register<ExperienceRepositoryInterface>('ExperienceRepositoryInterface', ExperienceRepository);
-container.register<CertRepositoryInterface>('CertRepositoryInterface', CertRepository);
-container.register<EducationRepositoryInterface>('EducationRepositoryInterface', EducationRepository);
-container.register<ProfileRepositoryInterface>('ProfileRepositoryInterface', ProfileRepository);
+container.register<ProjectRepositoryInterface>('ProjectRepositoryInterface', ProjectRepository, { lifecycle: Lifecycle.Singleton });
+container.register<ExperienceRepositoryInterface>('ExperienceRepositoryInterface', ExperienceRepository, { lifecycle: Lifecycle.Singleton });
+container.register<CertRepositoryInterface>('CertRepositoryInterface', CertRepository, { lifecycle: Lifecycle.Singleton });
+container.register<EducationRepositoryInterface>('EducationRepositoryInterface', EducationRepository, { lifecycle: Lifecycle.Singleton });
+container.register<ProfileRepositoryInterface>('ProfileRepositoryInterface', ProfileRepository, { lifecycle: Lifecycle.Singleton });
 
-container.register<CacheServiceInterface>('CacheServiceInterface', CacheService);
-container.register<StorageServiceInterface>('StorageServiceInterface', StorageService);
-container.register<ProjectServiceInterface>('ProjectServiceInterface', ProjectService);
-container.register<ExperienceServiceInterface>('ExperienceServiceInterface', ExperienceService);
-container.register<CertServiceInterface>('CertServiceInterface', CertService);
-container.register<EducationServiceInterface>('EducationServiceInterface', EducationService);
-container.register<ProfileServiceInterface>('ProfileServiceInterface', ProfileService);
+container.register<CacheServiceInterface>('CacheServiceInterface', CacheService, { lifecycle: Lifecycle.Singleton });
+container.register<StorageServiceInterface>('StorageServiceInterface', StorageService, { lifecycle: Lifecycle.Singleton });
+container.register<ProjectServiceInterface>('ProjectServiceInterface', ProjectService, { lifecycle: Lifecycle.Singleton });
+container.register<ExperienceServiceInterface>('ExperienceServiceInterface', ExperienceService, { lifecycle: Lifecycle.Singleton });
+container.register<CertServiceInterface>('CertServiceInterface', CertService, { lifecycle: Lifecycle.Singleton });
+container.register<EducationServiceInterface>('EducationServiceInterface', EducationService, { lifecycle: Lifecycle.Singleton });
+container.register<ProfileServiceInterface>('ProfileServiceInterface', ProfileService, { lifecycle: Lifecycle.Singleton });
+container.register<EventBusServiceInterface>('EventBusServiceInterface', EventBusService, { lifecycle: Lifecycle.Singleton });
 
 container.registerInstance<NotionClient>('NotionClient', new NotionClient({ auth: process.env.NOTION_API_KEY }));

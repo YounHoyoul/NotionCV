@@ -14,10 +14,12 @@ type Props = {
 export default function Anchor({ link, className, children, onClick }: Props) {
   const handleClicked = (event: MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
-    const target = event.target as HTMLAnchorElement;
+    let target = event.target as HTMLElement;
+    if (target.tagName.toLowerCase() !== 'a') {
+      target = target.closest('a')!;
+    } 
     const id = target.getAttribute('href') as string;
-    if (id.startsWith("#")) scrollSmoothlyTo(id);
-    
+    if (id && id.startsWith("#")) scrollSmoothlyTo(id);
     onClick && onClick(event);
   };
 

@@ -1,9 +1,9 @@
-import slugify from "slugify";
 import SkillItem from "./SkillItem";
 import Subtitle from "./Subtitle";
 
 import { FaTools } from 'react-icons/fa';
 import { TITLE_BACKEND, TITLE_FRONTEND, TITLE_LANGUAGE, TITLE_SKILL, TITLE_WEBDBSEERVER } from "@/repositories/Constants";
+import { slug } from "@/lib/slugify";
 
 type Props = {
   frontends: SkillResultSet[],
@@ -21,7 +21,7 @@ export default function Skill({ languages, frontends, backends, webDbServers }: 
         </div>
         {items && items.length > 0 && items.map((item, index) => {
           return (
-            <SkillItem key={index} item={item} id={slugify(`${title} ${item.name}`)}/>
+            <SkillItem key={index} item={item} id={slug(`${title} ${item.name}`)}/>
           );
         })}
       </div>

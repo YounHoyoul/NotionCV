@@ -1,6 +1,5 @@
 "use client";
 
-import slugify from 'slugify';
 import clsx from 'clsx';
 
 import { MouseEvent, useEffect, useState } from "react";
@@ -12,7 +11,8 @@ import LinkedSelectItems from './LinkedSelectItems';
 import Label from './Label';
 import SelectItems from './SelectItems';
 import Anchor from './Anchor';
-import { stopPropagation } from '@/lib/stopPropagation';
+import { slug } from '@/lib/slugify';
+import { closePanelOnDocumentClicked } from '@/lib/closePanelOnDocucmentClicked';
 
 type Props = {
   project: Project
@@ -21,12 +21,13 @@ type Props = {
 export default function ProjectCard({ project }: Props) {
   const [show, setShow] = useState(false);
 
+  const id = slug(project.name[0].plain_text);
+
   useEffect(() => {
-    document.addEventListener('click', () => setShow(false));
+    closePanelOnDocumentClicked(id, () => setShow(false));
   }, []);
 
   const handleClicked = (e: MouseEvent<HTMLSpanElement>) => {
-    stopPropagation(e);
     setShow(!show);
   }
 
@@ -60,7 +61,7 @@ export default function ProjectCard({ project }: Props) {
     <>
       <Caret open={true} onClick={handleClicked} />
       <ItemTitle items={project.name} />
-      <Anchor link={`#${slugify(project.company)}`}>{project.company}</Anchor>
+      <Anchor link={`#${slug(project.company)}`}>{project.company}</Anchor>
       <Label label="Working Period" />
       <p className="text-xs">{project.workingPeriod}</p>
       <Label label="Working Role" />
@@ -74,17 +75,16 @@ export default function ProjectCard({ project }: Props) {
   );
 
   return (
-    <div id={slugify(project.name[0].plain_text)}
+    <div id={id}
       className={clsx(
         'shadow', 'border', 'bg-white', 'dark:border-0', 'dark:bg-gray-800',
         'rounded', 'p-4', 'w-full', 'sm:basis-1/2-gap-4', 'lg:basis-1/3-gap-4',
         'xl:basis-1/4-gap-4 flex', 'flex-col', 'gap-2', 'relative'
-      )}
-      onClick={(e) => stopPropagation(e)}>
+      )}>
       {renderSummary()}
       <div className={clsx(
         'absolute', 'shadow', 'w-full-card', '-left-[1px]', '-top-[1px]', 'block', 'p-4',
-        'border', 'bg-white', 'rounded', 'dark:bg-gray-800', 'p-4', 'z-10', 'flex',
+        'border', 'bg-white', 'rounded', 'dark:bg-gray-800', 'z-10', 'flex',
         'flex-col', 'gap-2', !show && 'hidden')}>
         {renderDetail()}
       </div>
