@@ -20,7 +20,7 @@ export default function ProjectAccordion({ item }: Props) {
       <Caret open={open} onClick={handleOpen} />
       <h2 className={clsx(
         'w-full p-4 flex flex-wrap gap-2 items-center',
-        open && 'border-b-[1px] border-slate-400'
+        open && 'separator'
       )}>
         <div className="flex gap-2">
           <Icon icon={item.icon} />

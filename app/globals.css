@@ -10,4 +10,8 @@
   .text-primay-color {
     @apply text-slate-700 dark:text-slate-300
   }
+
+  .separator {
+    @apply border-b-[1px] border-slate-200 dark:border-slate-700
+  }
 }
