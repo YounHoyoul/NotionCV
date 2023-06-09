@@ -87,7 +87,7 @@ export default function ExperienceCard({ experience, eventBus }: Props) {
         'shadow', 'border', 'bg-white', 'dark:border-0',
         'dark:bg-gray-800', 'rounded', 'p-4', 'w-full',
         'sm:basis-1/2-gap-4', 'flex', 'flex-col', 'gap-2',
-        'relative'
+        'relative', 'transition'
       )}>
       {renderSummary()}
       <div className={clsx(
@@ -95,7 +95,7 @@ export default function ExperienceCard({ experience, eventBus }: Props) {
           'absolute', 'shadow', 'w-full-card', '-left-[1px]',
           '-top-[1px]', 'block', 'p-4', 'border', 'bg-white',
           'rounded', 'dark:bg-gray-800', 'z-10', 'flex',
-          'flex-col', 'gap-2'),
+          'flex-col', 'gap-2', 'transition'),
         !show && 'hidden')
       }>
         {renderDetail()}

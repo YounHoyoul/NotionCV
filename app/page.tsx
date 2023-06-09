@@ -20,6 +20,8 @@ import EducationServiceInterface from "@/services/EducationServiceInterface";
 import EventBusServiceInterface from "@/services/EventBusServiceInterface";
 import Papers from "@/components/Papers";
 
+import DarkModeButton from '@/components/DarkModeButton'
+
 export default async function Home() {
 
   const projectService = container.resolve<ProjectServiceInterface>('ProjectServiceInterface');
@@ -47,8 +49,9 @@ export default async function Home() {
       <main className="flex min-h-screen flex-col items-center justify-between py-24 px-4 md:px-8 lg:px-24">
         <div className="flex flex-col gap-4 relative w-full">
           <Avatar url={profile.icon?.external.url} />
+          <DarkModeButton />
           <Title title={profile.name[0].plain_text} />
-          <div className="rounded bg-gray-300 dark:bg-gray-900 p-4 text-sm">
+          <div className="rounded bg-gray-300 dark:bg-gray-900 p-4 text-sm transition">
             Welcome to my online CV! I&apos;m excited to share my skills and experiences with you.
             Explore my qualifications and achievements to discover more about my professional journey.
             Feel free to reach out for any inquiries or opportunities. Thank you for visiting!

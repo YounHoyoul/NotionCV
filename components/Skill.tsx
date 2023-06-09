@@ -17,7 +17,7 @@ export default function Skill({ languages, frontends, backends, webDbServers }: 
     return (
       <div className="w-full sm:basis-1/2-gap-4 lg:basis-1/3-gap-4 xl:basis-1/4-gap-4">
         <div className="p-4 cursor-pointer border-b-[1px] border-slate-400">
-          <h2 className={`text-md flex gap-2`}>{title}</h2>
+          <h2 className={`text-md flex gap-2 transition`}>{title}</h2>
         </div>
         {items && items.length > 0 && items.map((item, index) => {
           return (
@@ -31,9 +31,9 @@ export default function Skill({ languages, frontends, backends, webDbServers }: 
   return (
     <>
       <Subtitle title={TITLE_SKILL}>
-        <FaTools className="text-xl text-purple-700 dark:fuchsia-300" />
+        <FaTools className="text-xl text-purple-700 dark:fuchsia-300 transition" />
       </Subtitle>
-      <div className="w-full flex flex-wrap gap-4">
+      <div className="w-full flex flex-wrap gap-4 transition">
         {renderSkillset(TITLE_LANGUAGE, languages)}
         {renderSkillset(TITLE_FRONTEND, frontends)}
         {renderSkillset(TITLE_BACKEND, backends)}

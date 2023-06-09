@@ -4,6 +4,9 @@ import './di-container'
 import './globals.css'
 import { Inter } from 'next/font/google'
 
+import Providers from '@/components/Providers';
+import clsx from 'clsx';
+
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
@@ -24,6 +27,7 @@ export const metadata = {
   },
 }
 
+
 export default function RootLayout({
   children,
 }: {
@@ -31,7 +35,16 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={clsx(inter.className,
+        'bg-gradient-to-b', 'from-slate-100', 'to-slate-50',
+        'dark:bg-gradient-to-b', 'dark:from-slate-950', 'dark:to-slate-950',
+        'text-slate-800', 'dark:text-slate-100',
+        'transition')
+      }>
+        <Providers>
+          {children}
+        </Providers>
+      </body>
     </html>
   )
 }

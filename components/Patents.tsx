@@ -12,7 +12,7 @@ export default function Patents({ patents }: Props) {
   return (
     <>
       <Subtitle title={TITLE_PATENTS}>
-        <FaFileAlt className="text-xl text-purple-700 dark:fuchsia-300" />
+        <FaFileAlt className="text-xl text-purple-700 dark:fuchsia-300 transition" />
       </Subtitle>
       <div className="flex flex-wrap mt-4 gap-4">
         {patents.map((item, index) => <CertCard item={item} key={index} />)}

@@ -28,7 +28,8 @@ export default function Anchor({ link, className, children, onClick }: Props) {
       className,
       'hover:text-teal-600',
       'dark:hover:text-teal-300',
-      'transition-colors'
+      'transition-colors',
+      'transition'
     )}
     >{children}</a>
   )

@@ -12,7 +12,7 @@ export default function Education({ educations }: Props) {
   return (
     <>
       <Subtitle title="Education">
-        <FaUniversity className="text-xl text-purple-700 dark:fuchsia-300" />
+        <FaUniversity className="text-xl text-purple-700 dark:fuchsia-300 transition" />
       </Subtitle>
 
       <div className="flex flex-wrap mt-4 gap-4">

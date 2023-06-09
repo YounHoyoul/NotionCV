@@ -30,8 +30,7 @@ export default function LinkedSelectItems({ title, items, onClick }: Props) {
           <SelectItem key={index} item={item} hoverStyle={clsx(
             "hover:bg-teal-200",
             "hover:text-teal-900",
-            "transition-colors",
-            "duration-300"
+            "transition"
           )} />
         </a>
       )}

@@ -68,7 +68,7 @@ export default function SkillItem({ id, item }: Props) {
 
   return (
     <div id={id} className={clsx(
-      'w-full', 'relative', 'my-1',
+      'w-full', 'relative', 'my-1', 'transition',
       highlighted && 'bg-white',
       highlighted && 'rounded',
       highlighted && 'dark:bg-gray-800',
@@ -77,7 +77,7 @@ export default function SkillItem({ id, item }: Props) {
       <div className={clsx(
         'absolute', 'shadow', 'w-full-card', '-left-[1px]', '-top-[1px]', 'block', 'px-4', 'py-2',
         'border', 'bg-white', 'rounded', 'dark:bg-gray-800', 'z-10', 'flex',
-        'flex-col', 'gap-2', !show && 'hidden')}>
+        'flex-col', 'gap-2', 'transition', !show && 'hidden')}>
         {renderPanel()}
       </div>
     </div>

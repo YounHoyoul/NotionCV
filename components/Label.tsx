@@ -4,5 +4,5 @@ type Props = {
 };
 
 export default function Label({ label }: Props) {
-    return <label className="text-xs text-gray-500 dark:text-gray-400">{label}:</label>;
+    return <label className="text-xs text-gray-500 dark:text-gray-400 transition">{label}:</label>;
 }

@@ -13,7 +13,7 @@ export default function Projects({ projectsGroupByCompany }: Props) {
   return (
     <>
       <Subtitle title={TITLE_PROJECTS}>
-        <FaCode className="text-xl text-purple-700 dark:fuchsia-300" />
+        <FaCode className="text-xl text-purple-700 dark:fuchsia-300 transition" />
       </Subtitle>
       <div className="w-full">
         {projectsGroupByCompany.map((item, index) => {

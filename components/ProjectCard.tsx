@@ -77,13 +77,13 @@ export default function ProjectCard({ project }: Props) {
       className={clsx(
         'shadow', 'border', 'bg-white', 'dark:border-0', 'dark:bg-gray-800',
         'rounded', 'p-4', 'w-full', 'sm:basis-1/2-gap-4', 'lg:basis-1/3-gap-4',
-        'xl:basis-1/4-gap-4 flex', 'flex-col', 'gap-2', 'relative'
+        'xl:basis-1/4-gap-4 flex', 'flex-col', 'gap-2', 'relative', 'transition'
       )}>
       {renderSummary()}
       <div className={clsx(
         'absolute', 'shadow', 'w-full-card', '-left-[1px]', '-top-[1px]', 'block', 'p-4',
         'border', 'bg-white', 'rounded', 'dark:bg-gray-800', 'z-10', 'flex',
-        'flex-col', 'gap-2', !show && 'hidden')}>
+        'flex-col', 'gap-2', 'transition', !show && 'hidden')}>
         {renderDetail()}
       </div>
     </div>
