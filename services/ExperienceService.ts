@@ -25,14 +25,14 @@ export default class ExperienceService implements ExperienceServiceInterface {
         const distincts: SelectItem[] = [];
 
         for (const project of projects) {
-            for (const item of callback(project)) {
+            for (const item of (callback(project) as SelectItem[])) {
                 if (distincts.filter(a => a.name === item.name).length === 0) {
                     distincts.push(item);
                 }
             }
         }
 
-        return distincts;
+        return distincts.sort((a, b) => a.name > b.name ? 1 : -1);
     }
 
     async allWithProjects(): Promise<ExperienceResultSet[]> {

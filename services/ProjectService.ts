@@ -22,7 +22,17 @@ export default class ProjectService implements ProjectServiceInterface {
 
     async all(): Promise<Project[]> {
         return this.cache.rememberForever('all-projects', async (): Promise<Project[]> => {
-            return (await this.repository.all()).sort((a, b) => a.period.start <= b.period.start ? 1 : -1);
+            const projects = await this.repository.all();
+            for (const project of projects) {
+                project.language.sort((a, b) => a.name >= b.name ? 1 : -1);
+                project.frontend.sort((a, b) => a.name >= b.name ? 1 : -1);
+                project.backend.sort((a, b) => a.name >= b.name ? 1 : -1);
+                project.webDbServer.sort((a, b) => a.name >= b.name ? 1 : -1);
+            }
+            return projects.sort((a, b) => a.period.end == null
+                ? 1
+                : a.period.start <= b.period.start ? 1 : -1
+            );
         });
     }
 
@@ -30,7 +40,7 @@ export default class ProjectService implements ProjectServiceInterface {
         const allExperiences = await this.experienceRepository.all();
         const allProjects = await this.all();
         const profile = await this.profileRepository.profile();
-        
+
         const result: ProjectResultSet[] = [];
 
         for (const company of allExperiences) {
@@ -57,7 +67,7 @@ export default class ProjectService implements ProjectServiceInterface {
 
         const groupIds: string[] = [];
         for (const project of allProjects) {
-            for (const item of callback(project)) {
+            for (const item of (callback(project) as SelectItem[])) {
                 if (groupIds.indexOf(item.name) === -1) {
                     groupIds.push(item.name);
                 }
@@ -68,7 +78,7 @@ export default class ProjectService implements ProjectServiceInterface {
         const results: SkillResultSet[] = [];
         for (const groupId of groupIds) {
             for (const project of allProjects) {
-                for (const item of callback(project)) {
+                for (const item of (callback(project) as SelectItem[])) {
                     if (groupId === item.name) {
                         const result = results.filter(a => a.name === groupId);
                         if (result.length === 0) {
