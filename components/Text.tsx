@@ -21,7 +21,7 @@ class TextDecorator {
       !this.fontWeight && item.annotations.bold && "font-semibold",
       item.annotations.italic && "italic",
       item.annotations.color === 'gray' && "text-gray-700 dark:text-gray-300",
-      item.annotations.color === 'default' && "text-slate-700 dark:text-slate-300",
+      item.annotations.color === 'default' && "text-primay-color",
       item.annotations.color === 'green' && "text-green-700 dark:text-green-300",
       item.annotations.color === 'red' && "text-red-700 dark:text-red-300",
       item.annotations.color === 'blue' && "text-blue-700 dark:text-blue-300",

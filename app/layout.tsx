@@ -38,9 +38,9 @@ export default function RootLayout({
       <body className={clsx(inter.className,
         'bg-gradient-to-b', 'from-slate-100', 'to-slate-50',
         'dark:bg-gradient-to-b', 'dark:from-slate-950', 'dark:to-slate-950',
-        'text-slate-800', 'dark:text-slate-100',
-        'transition')
-      }>
+        'text-primay-color',
+        'transition'
+      )}>
         <Providers>
           {children}
         </Providers>

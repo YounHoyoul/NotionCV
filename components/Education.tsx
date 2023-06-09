@@ -19,9 +19,9 @@ export default function Education({ educations }: Props) {
         {educations.map((item, index) =>
           <Card key={index}>
             <ItemTitle items={item.name} icon={item.icon}/>
-            <p className="text-sm">{item.degree[0].plain_text}</p>
-            <p className="text-xs">{item.fieldOfStudy[0].plain_text}</p>
-            <p className="text-xs">{item.end.start}</p>
+            <p className="text-sm text-primay-color">{item.degree[0].plain_text}</p>
+            <p className="text-xs text-primay-color">{item.fieldOfStudy[0].plain_text}</p>
+            <p className="text-xs text-primay-color">{item.end.start}</p>
           </Card>)}
       </div>
     </>

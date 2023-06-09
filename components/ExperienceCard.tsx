@@ -47,8 +47,19 @@ export default function ExperienceCard({ experience, eventBus }: Props) {
       <Caret open={false} onClick={handleClicked} />
       <ItemTitle items={experience.company.name} icon={experience.company.icon} />
       <SelectItems items={[experience.company.type, experience.company.role]} />
-      <p className="text-xs">{experience.company.workingPeriod}</p>
+      <p className="text-xs text-primay-color">{experience.company.workingPeriod}</p>
       <Text text={experience.company.address} fontSize="xs" />
+      <p className="flex flex-wrap gap-2">
+        <span className="text-xs text-primay-color">{experience.projects.length} pjts</span>
+        <span className="text-xs text-primay-color">·</span>
+        <span className="text-xs text-primay-color">{TITLE_LANGUAGE} : {experience.language.length} </span>
+        <span className="text-xs text-primay-color">·</span>
+        <span className="text-xs text-primay-color">{TITLE_FRONTEND} : {experience.frontend.length} </span>
+        <span className="text-xs text-primay-color">·</span>
+        <span className="text-xs text-primay-color">{TITLE_BACKEND} : {experience.backend.length} </span>
+        <span className="text-xs text-primay-color">·</span>
+        <span className="text-xs text-primay-color">{TITLE_WEBDBSEERVER} : {experience.webDbServer.length} </span>
+      </p>
     </>
   );
 
