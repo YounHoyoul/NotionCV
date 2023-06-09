@@ -96,7 +96,7 @@ export default class ProjectService implements ProjectServiceInterface {
             result.workingPeriod += (years > 0 ? `${years} yrs ` : '') + `${months} mos`;
             result.highlighted =
                 result.projects.length >= parseInt(process.env.HIGHLIGHT_COUNT ?? '3') &&
-                result.totalMonths >= parseInt(process.env.HIGHLIGHT_MONTHS ?? '60')
+                result.totalMonths >= parseInt(process.env.HIGHLIGHT_MONTHS ?? '48')
         }
 
         results.sort((a, b) => a.totalMonths <= b.totalMonths ? 1 : -1);
