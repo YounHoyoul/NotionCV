@@ -14,7 +14,7 @@ export default function Experience({ experiences, eventBus }: Props) {
   return (
     <>
       <Subtitle title={TITLE_EXPERIENCE}>
-        <FaSuitcase className="text-xl text-purple-700 dark:fuchsia-300 transition" />
+        <FaSuitcase className="icon-primay" />
       </Subtitle>
       <div className="flex flex-wrap mt-4 gap-4">
         {experiences.map((experience, index) => {

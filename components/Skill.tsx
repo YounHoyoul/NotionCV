@@ -31,7 +31,7 @@ export default function Skill({ languages, frontends, backends, webDbServers }: 
   return (
     <>
       <Subtitle title={TITLE_SKILL}>
-        <FaTools className="text-xl text-purple-700 dark:fuchsia-300 transition" />
+        <FaTools className="icon-primay" />
       </Subtitle>
       <div className="w-full flex flex-wrap gap-4 transition">
         {renderSkillset(TITLE_LANGUAGE, languages)}

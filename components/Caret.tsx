@@ -17,8 +17,8 @@ export default function Caret({ open, topClassName, onClick }: Props) {
       "cursor-pointer"
     )}>
       {open
-        ? <RxCaretDown className="text-gray-500 text-lg" />
-        : <RxCaretRight className="text-gray-500 text-lg" />
+        ? <RxCaretDown className="text-gray-500 dark:text-gray-300 text-lg" />
+        : <RxCaretRight className="text-gray-500 dark:text-gray-300 text-lg" />
       }
     </span>
   )

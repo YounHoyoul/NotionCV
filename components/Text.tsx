@@ -79,7 +79,7 @@ export default function Text({ text, fontSize, fontWeight, children }: Props) {
   const fontWeightClassName = fontWeight ? `font-${fontWeight}` : '';
 
   return (
-    <p>
+    <>
       {text.map((item, index) => {
         let decorator = item.href ? new AnchorDecorator(fontSizeClassName, fontWeightClassName) : new SpanDecorator(fontSizeClassName, fontWeightClassName);
         decorator = item.annotations.code ? new CodeDecorator(fontSizeClassName, fontWeightClassName, decorator) : decorator;
@@ -89,6 +89,6 @@ export default function Text({ text, fontSize, fontWeight, children }: Props) {
         return decorator.draw(item, index);
       })}
       {children}
-    </p>
+    </>
   )
 }

@@ -12,16 +12,16 @@ export default function Education({ educations }: Props) {
   return (
     <>
       <Subtitle title="Education">
-        <FaUniversity className="text-xl text-purple-700 dark:fuchsia-300 transition" />
+        <FaUniversity className="icon-primay" />
       </Subtitle>
 
       <div className="flex flex-wrap mt-4 gap-4">
         {educations.map((item, index) =>
           <Card key={index}>
             <ItemTitle items={item.name} icon={item.icon}/>
-            <p className="text-sm mt-2">{item.degree[0].plain_text}</p>
-            <p className="text-xs mt-2">{item.fieldOfStudy[0].plain_text}</p>
-            <p className="text-xs mt-2">{item.end.start}</p>
+            <p className="text-sm">{item.degree[0].plain_text}</p>
+            <p className="text-xs">{item.fieldOfStudy[0].plain_text}</p>
+            <p className="text-xs">{item.end.start}</p>
           </Card>)}
       </div>
     </>
