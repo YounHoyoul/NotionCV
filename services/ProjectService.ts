@@ -32,8 +32,8 @@ export default class ProjectService implements ProjectServiceInterface {
                 project.webDbServer.sort(fnSortAtoZ);
             }
             return projects.sort((a, b) => (
-                (!b.period.end && a.period.end) ||
-                (!b.period.end && !a.period.end && a.period.start <= b.period.start) ? 1 : -1
+                (a.period.end && !b.period.end) ||
+                    (a.period.end && b.period.end && (a.period.start <= b.period.start)) ? 1 : -1
             ));
         });
     }
@@ -68,35 +68,44 @@ export default class ProjectService implements ProjectServiceInterface {
 
         const groupIds: string[] = [];
         allProjects.forEach(project => (callback(project) as SelectItem[]).forEach(item => {
-            (groupIds.indexOf(item.name) === -1) && (groupIds.push(item.name))
+            (groupIds.indexOf(item.name) === -1) &&
+                groupIds.push(item.name)
         }));
 
         const results: SkillResultSet[] = [];
+        const newSkillSet = (groupId: string, item: SelectItem, project: Project) => ({
+            name: groupId,
+            item: item,
+            projects: [project],
+            workingPeriod: '',
+            totalMonths: 0,
+            highlighted: false
+        });
         groupIds.forEach(groupId => allProjects.forEach(project => (callback(project) as SelectItem[]).forEach(item => {
             if (groupId === item.name) {
-                const result = results.filter(a => a.name === groupId);
-                if (result.length === 0) {
-                    results.push({
-                        name: groupId,
-                        item: item,
-                        projects: [],
-                        workingPeriod: '',
-                        totalMonths: 0,
-                        highlighted: false
-                    });
+                const result = results.findLast(a => a.name === groupId);
+                if (result) {
+                    result.projects.push(project);
+                } else {
+                    results.push(newSkillSet(groupId, item, project));
                 }
-                (results.filter(a => a.name === groupId)[0]).projects.push(project);
             }
         })));
 
+        const workingPeriod = (years: number, months: number) => (
+            (years > 1 ? `${years} yrs ` : (years === 1 ? '1 yr ' : '')) +
+            (months > 1 ? `${months} mos` : (months === 1 ? `1 mo` : ''))
+        );
+
+        const highlighted = (prts: number, totalMonths: number) => (
+            prts >= parseInt(process.env.HIGHLIGHT_COUNT ?? '3') &&
+            totalMonths >= parseInt(process.env.HIGHLIGHT_MONTHS ?? '48')
+        );
+
         for (const result of results) {
             result.totalMonths = result.projects.reduce((a, b) => a + b.totalMonths, 0);
-            const years = Math.floor(result.totalMonths / 12);
-            const months = result.totalMonths % 12;
-            result.workingPeriod += (years > 0 ? `${years} yrs ` : '') + `${months} mos`;
-            result.highlighted =
-                result.projects.length >= parseInt(process.env.HIGHLIGHT_COUNT ?? '3') &&
-                result.totalMonths >= parseInt(process.env.HIGHLIGHT_MONTHS ?? '48')
+            result.workingPeriod = workingPeriod(Math.floor(result.totalMonths / 12), result.totalMonths % 12);
+            result.highlighted = highlighted(result.projects.length, result.totalMonths);
         }
 
         results.sort((a, b) => a.totalMonths <= b.totalMonths ? 1 : -1);

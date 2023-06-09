@@ -11,16 +11,14 @@ import LinkedSelectItems from "./LinkedSelectItems";
 import Label from "./Label";
 import Anchor from "./Anchor";
 import { TITLE_BACKEND, TITLE_FRONTEND, TITLE_LANGUAGE, TITLE_WEBDBSEERVER } from "@/repositories/Constants";
-import EventBusServiceInterface from "@/services/EventBusServiceInterface";
 import { slug } from "@/lib/slugify";
 import { closePanelOnDocumentClicked } from "@/lib/closePanelOnDocucmentClicked";
 
 type Props = {
-  experience: ExperienceResultSet,
-  eventBus: EventBusServiceInterface
+  experience: ExperienceResultSet
 };
 
-export default function ExperienceCard({ experience, eventBus }: Props) {
+export default function ExperienceCard({ experience }: Props) {
   const [show, setShow] = useState(false);
 
   const id = slug(experience.company.name[0].plain_text);
@@ -31,16 +29,19 @@ export default function ExperienceCard({ experience, eventBus }: Props) {
 
   const handleClicked = () => setShow(!show);
 
-  const renderSkillset = (title: string, items: SelectItem[]) => {
-    return (
-      <>
-        <Label label={title} />
-        <div className="flex flex-wrap gap-2">
-          <LinkedSelectItems title={title} items={items} onClick={handleClicked} />
-        </div>
-      </>
-    );
-  };
+  const renderSkillset = (title: string, skills: SelectItem[]) => (skills.length ?
+    <>
+      <Label label={title} />
+      <div className="flex flex-wrap gap-2">
+        <LinkedSelectItems title={title} items={skills} onClick={handleClicked} />
+      </div>
+    </> : <></>);
+
+  const summerySkills = (title: string, skills: SelectItem[]) => (skills.length ?
+    <>
+      <span className="text-xs text-primay-color">·</span>
+      <span className="text-xs text-primay-color">{title} : {skills.length} </span>
+    </> : <></>);
 
   const renderSummary = () => (
     <>
@@ -51,14 +52,10 @@ export default function ExperienceCard({ experience, eventBus }: Props) {
       <Text text={experience.company.address} fontSize="xs" />
       <p className="flex flex-wrap gap-2">
         <span className="text-xs text-primay-color">{experience.projects.length} pjts</span>
-        <span className="text-xs text-primay-color">·</span>
-        <span className="text-xs text-primay-color">{TITLE_LANGUAGE} : {experience.language.length} </span>
-        <span className="text-xs text-primay-color">·</span>
-        <span className="text-xs text-primay-color">{TITLE_FRONTEND} : {experience.frontend.length} </span>
-        <span className="text-xs text-primay-color">·</span>
-        <span className="text-xs text-primay-color">{TITLE_BACKEND} : {experience.backend.length} </span>
-        <span className="text-xs text-primay-color">·</span>
-        <span className="text-xs text-primay-color">{TITLE_WEBDBSEERVER} : {experience.webDbServer.length} </span>
+        {summerySkills(TITLE_LANGUAGE, experience.language)}
+        {summerySkills(TITLE_FRONTEND, experience.frontend)}
+        {summerySkills(TITLE_BACKEND, experience.backend)}
+        {summerySkills(TITLE_WEBDBSEERVER, experience.webDbServer)}
       </p>
     </>
   );
@@ -93,22 +90,20 @@ export default function ExperienceCard({ experience, eventBus }: Props) {
   );
 
   return (
-    <div id={id}
-      className={clsx(
-        'shadow', 'border', 'bg-white', 'dark:border-0',
-        'dark:bg-gray-800', 'rounded', 'p-4', 'w-full',
-        'sm:basis-1/2-gap-4', 'flex', 'flex-col', 'gap-2',
-        'relative', 'transition'
-      )}>
+    <div id={id} className={clsx(
+      'shadow', 'border', 'bg-white', 'dark:border-0',
+      'dark:bg-gray-800', 'rounded', 'p-4', 'w-full',
+      'sm:basis-1/2-gap-4', 'flex', 'flex-col', 'gap-2',
+      'relative', 'transition'
+    )}>
       {renderSummary()}
       <div className={clsx(
-        show && clsx(
-          'absolute', 'shadow', 'w-full-card', '-left-[1px]',
-          '-top-[1px]', 'block', 'p-4', 'border', 'bg-white',
-          'rounded', 'dark:bg-gray-800', 'z-10', 'flex',
-          'flex-col', 'gap-2', 'transition'),
-        !show && 'hidden')
-      }>
+        'absolute', 'shadow', 'w-full-card', '-left-[1px]',
+        '-top-[1px]', 'block', 'p-4', 'border', 'bg-white',
+        'rounded', 'dark:bg-gray-800', 'z-10', 'flex',
+        'flex-col', 'gap-2', 'transition',
+        !show && 'hidden'
+      )}>
         {renderDetail()}
         {renderProjectList()}
         {renderSkillset(TITLE_LANGUAGE, experience.language)}
