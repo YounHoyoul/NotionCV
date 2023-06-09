@@ -29,6 +29,7 @@ export default function LinkedSelectItems({ title, items, onClick }: Props) {
         <a key={index} href={`#${slug(title + ' ' + item.name)}`} onClick={handleClicked}>
           <SelectItem key={index} item={item} hoverStyle={clsx(
             "hover:bg-teal-200",
+            "dark:hover:bg-teal-100",
             "hover:text-teal-900",
             "transition"
           )} />
