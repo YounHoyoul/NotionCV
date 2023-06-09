@@ -176,5 +176,7 @@ type SkillResultSet = {
     name: string,
     item: SelectItem,
     projects: Project[],
-    workingPeriod: string
+    workingPeriod: string,
+    totalMonths: number,
+    highlighted: boolean
 }

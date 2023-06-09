@@ -63,15 +63,12 @@ export default function SkillItem({ id, item }: Props) {
     </>
   );
 
-  const highlighted = item.projects.length >= (parseInt(process.env.HIGHLIGHT_COUNT ?? '5')) &&
-    (item.projects.map(item => item.totalMonths) as number[]).reduce((a, b) => a + b, 0) > parseInt(process.env.HIGHLIGHT_MONTHS ?? '60');
-
   return (
     <div id={id} className={clsx(
       'w-full', 'relative', 'my-1', 'transition',
-      highlighted && 'bg-white',
-      highlighted && 'rounded',
-      highlighted && 'dark:bg-gray-800',
+      item.highlighted && 'bg-white',
+      item.highlighted && 'rounded',
+      item.highlighted && 'dark:bg-gray-800',
     )}>
       {renderSummary()}
       <div className={clsx(

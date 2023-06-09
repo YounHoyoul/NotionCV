@@ -7,6 +7,8 @@ import ProfileRepositoryInterface from "@/repositories/ProfileRepositoryInterfac
 
 const EXPERIENCE_PERSONAL = "Personal";
 
+export const fnSortAtoZ = (a: SelectItem, b: SelectItem): number => a.name >= b.name ? 1 : -1;
+
 export default class ProjectService implements ProjectServiceInterface {
     private repository: ProjectRepositoryInterface;
     private experienceRepository: ExperienceRepositoryInterface;
@@ -24,10 +26,10 @@ export default class ProjectService implements ProjectServiceInterface {
         return this.cache.rememberForever('all-projects', async (): Promise<Project[]> => {
             const projects = await this.repository.all();
             for (const project of projects) {
-                project.language.sort((a, b) => a.name >= b.name ? 1 : -1);
-                project.frontend.sort((a, b) => a.name >= b.name ? 1 : -1);
-                project.backend.sort((a, b) => a.name >= b.name ? 1 : -1);
-                project.webDbServer.sort((a, b) => a.name >= b.name ? 1 : -1);
+                project.language.sort(fnSortAtoZ);
+                project.frontend.sort(fnSortAtoZ);
+                project.backend.sort(fnSortAtoZ);
+                project.webDbServer.sort(fnSortAtoZ);
             }
             return projects.sort((a, b) => a.period.end == null
                 ? 1
@@ -42,7 +44,6 @@ export default class ProjectService implements ProjectServiceInterface {
         const profile = await this.profileRepository.profile();
 
         const result: ProjectResultSet[] = [];
-
         for (const company of allExperiences) {
             result.push({
                 company: company.name[0].plain_text,
@@ -66,45 +67,39 @@ export default class ProjectService implements ProjectServiceInterface {
         const allProjects = await this.all();
 
         const groupIds: string[] = [];
-        for (const project of allProjects) {
-            for (const item of (callback(project) as SelectItem[])) {
-                if (groupIds.indexOf(item.name) === -1) {
-                    groupIds.push(item.name);
-                }
-            }
-        }
-        groupIds.sort();
+        allProjects.forEach(project => (callback(project) as SelectItem[]).forEach(item => {
+            (groupIds.indexOf(item.name) === -1) && (groupIds.push(item.name))
+        }));
 
         const results: SkillResultSet[] = [];
-        for (const groupId of groupIds) {
-            for (const project of allProjects) {
-                for (const item of (callback(project) as SelectItem[])) {
-                    if (groupId === item.name) {
-                        const result = results.filter(a => a.name === groupId);
-                        if (result.length === 0) {
-                            results.push({
-                                name: groupId,
-                                item: item,
-                                projects: [],
-                                workingPeriod: ''
-                            });
-                        }
-                        (results.filter(a => a.name === groupId)[0]).projects.push(project);
-                    }
+        groupIds.forEach(groupId => allProjects.forEach(project => (callback(project) as SelectItem[]).forEach(item => {
+            if (groupId === item.name) {
+                const result = results.filter(a => a.name === groupId);
+                if (result.length === 0) {
+                    results.push({
+                        name: groupId,
+                        item: item,
+                        projects: [],
+                        workingPeriod: '',
+                        totalMonths: 0,
+                        highlighted: false
+                    });
                 }
+                (results.filter(a => a.name === groupId)[0]).projects.push(project);
             }
-        }
+        })));
 
         for (const result of results) {
-            let totalMonth = 0;
-            for (const project of result.projects) {
-                totalMonth += project.totalMonths;
-            }
-            if (Math.floor(totalMonth / 12) > 0) {
-                result.workingPeriod = `${Math.floor(totalMonth / 12)} yrs `
-            }
-            result.workingPeriod += `${totalMonth % 12} mos`
+            result.totalMonths = result.projects.reduce((a, b) => a + b.totalMonths, 0);
+            const years = Math.floor(result.totalMonths / 12);
+            const months = result.totalMonths % 12;
+            result.workingPeriod += (years > 0 ? `${years} yrs ` : '') + `${months} mos`;
+            result.highlighted =
+                result.projects.length >= parseInt(process.env.HIGHLIGHT_COUNT ?? '3') &&
+                result.totalMonths >= parseInt(process.env.HIGHLIGHT_MONTHS ?? '60')
         }
+
+        results.sort((a, b) => a.totalMonths <= b.totalMonths ? 1 : -1);
 
         return results;
     }

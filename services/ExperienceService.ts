@@ -3,6 +3,7 @@ import type ExperienceServiceInterface from "@/services/ExperienceServiceInterfa
 import type CacheServiceInterface from "@/services/CacheServiceInterface";
 import { container } from "tsyringe";
 import ProjectServiceInterface from "./ProjectServiceInterface";
+import { fnSortAtoZ } from "./ProjectService";
 
 export default class ExperienceService implements ExperienceServiceInterface {
     private repository: ExperienceRepositoryInterface;
@@ -24,15 +25,11 @@ export default class ExperienceService implements ExperienceServiceInterface {
     private distintItems(projects: Project[], callback: Function) {
         const distincts: SelectItem[] = [];
 
-        for (const project of projects) {
-            for (const item of (callback(project) as SelectItem[])) {
-                if (distincts.filter(a => a.name === item.name).length === 0) {
-                    distincts.push(item);
-                }
-            }
-        }
+        projects.forEach(project => (callback(project) as SelectItem[]).forEach(item => {
+            (distincts.filter(a => a.name === item.name).length === 0) && distincts.push(item);
+        }));
 
-        return distincts.sort((a, b) => a.name > b.name ? 1 : -1);
+        return distincts.sort(fnSortAtoZ);
     }
 
     async allWithProjects(): Promise<ExperienceResultSet[]> {
@@ -40,7 +37,6 @@ export default class ExperienceService implements ExperienceServiceInterface {
         const groupedProjects = await this.projectService.groupByCompany();
 
         const result: ExperienceResultSet[] = [];
-
         for (const experiences of allCompanies) {
             const companyName = experiences.name[0].plain_text;
             const projects = groupedProjects.filter(a => a.company === companyName)[0].projects;
