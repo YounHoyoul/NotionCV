@@ -31,10 +31,10 @@ export default class ProjectService implements ProjectServiceInterface {
                 project.backend.sort(fnSortAtoZ);
                 project.webDbServer.sort(fnSortAtoZ);
             }
-            return projects.sort((a, b) => a.period.end == null
-                ? 1
-                : a.period.start <= b.period.start ? 1 : -1
-            );
+            return projects.sort((a, b) => (
+                (!b.period.end && a.period.end) ||
+                (!b.period.end && !a.period.end && a.period.start <= b.period.start) ? 1 : -1
+            ));
         });
     }
 
