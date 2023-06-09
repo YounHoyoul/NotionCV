@@ -1,16 +1,23 @@
+import clsx from "clsx";
 import { MouseEvent } from "react";
 import { RxCaretDown, RxCaretRight } from "react-icons/rx";
 
 type Props = {
   open: boolean,
-  onClick?: (event:MouseEvent<HTMLSpanElement>) => void
+  topClassName?: string,
+  onClick?: (event: MouseEvent<HTMLSpanElement>) => void
 }
 
-export default function Caret({ open, onClick }: Props) {
+export default function Caret({ open, topClassName, onClick }: Props) {
   return (
-    <span className="absolute top-5 right-2 cursor-pointer" onClick={onClick}>
-      {open 
-        ? <RxCaretDown className="text-gray-500 text-lg" /> 
+    <span onClick={onClick} className={clsx(
+      "absolute",
+      topClassName ? topClassName : "top-5",
+      "right-2",
+      "cursor-pointer"
+    )}>
+      {open
+        ? <RxCaretDown className="text-gray-500 text-lg" />
         : <RxCaretRight className="text-gray-500 text-lg" />
       }
     </span>

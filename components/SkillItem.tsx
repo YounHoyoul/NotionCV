@@ -33,8 +33,8 @@ export default function SkillItem({ id, item }: Props) {
 
   const renderSummary = () => (
     <>
-      <Caret open={false} onClick={handleClicked} />
-      <h2 className={clsx("text-md w-full pr-20 p-4",)}>
+      <Caret open={false} onClick={handleClicked} topClassName="top-3" />
+      <h2 className={clsx("text-md w-full pr-20 px-4 py-2",)}>
         {renderTitle()}
       </h2>
     </>
@@ -42,17 +42,17 @@ export default function SkillItem({ id, item }: Props) {
 
   const renderPanel = () => (
     <>
-      <Caret open={true} onClick={handleClicked} />
+      <Caret open={true} onClick={handleClicked} topClassName="top-3" />
       <h2 className={clsx(
-        "text-md", "w-full", "pr-20", "pb-4", "border-b-[1px]", "border-slate-400",
+        "text-md", "w-full", "pr-20", "pb-2",
       )}>
         {renderTitle()}
       </h2>
       <ul className={clsx(
-        "list-disc", "pl-8", "pr-4", "py-1", "my-2"
+        "list-disc", "pl-4", "pr-4"
       )}>
         {item.projects.map((item, index) =>
-          <li className="text-sm py-1" key={index}>
+          <li className="text-xs py-1" key={index}>
             <Anchor link={`#${slug(item.name[0].plain_text)}`} onClick={handleClicked}>
               {item.name[0].plain_text}
               <span className="text-xs"> · {item.totalMonths} mos</span>
@@ -63,11 +63,19 @@ export default function SkillItem({ id, item }: Props) {
     </>
   );
 
+  const highlighted = item.projects.length >= (parseInt(process.env.HIGHLIGHT_COUNT ?? '5')) &&
+    (item.projects.map(item => item.totalMonths) as number[]).reduce((a, b) => a + b, 0) > parseInt(process.env.HIGHLIGHT_MONTHS ?? '60');
+
   return (
-    <div id={id} className={clsx('w-full relative')}>
+    <div id={id} className={clsx(
+      'w-full', 'relative', 'my-1',
+      highlighted && 'bg-white',
+      highlighted && 'rounded',
+      highlighted && 'dark:bg-gray-800',
+    )}>
       {renderSummary()}
       <div className={clsx(
-        'absolute', 'shadow', 'w-full-card', '-left-[1px]', '-top-[1px]', 'block', 'p-4',
+        'absolute', 'shadow', 'w-full-card', '-left-[1px]', '-top-[1px]', 'block', 'px-4', 'py-2',
         'border', 'bg-white', 'rounded', 'dark:bg-gray-800', 'z-10', 'flex',
         'flex-col', 'gap-2', !show && 'hidden')}>
         {renderPanel()}
