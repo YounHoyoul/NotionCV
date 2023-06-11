@@ -22,7 +22,7 @@ export default function SkillSet({ title, items }: Props) {
   return (
     <div className="w-full relative sm:basis-1/2-gap-4 lg:basis-1/3-gap-4 xl:basis-1/4-gap-4">
       <Caret open={open} onClick={handleOpen} />
-      <div className={clsx("p-4 cursor-pointer", open && 'separator')}>
+      <div onClick={handleOpen} className={clsx("p-4 cursor-pointer", open && 'separator')} >
         <h2 className={`text-md flex gap-2 transition`}>{title}</h2>
       </div>
       <div ref={panelRef}

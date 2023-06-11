@@ -50,7 +50,7 @@ export default function ProjectCard({ project }: Props) {
   const renderSummary = () => (
     <>
       <Caret open={false} onClick={handleClicked} />
-      <ItemTitle items={project.name} />
+      <ItemTitle items={project.name} onClick={handleClicked} className="cursor-pointer"/>
       <p className="text-xs">{project.workingPeriod}</p>
       <SelectItems items={[project.role]} />
       <div className="flex flex-wrap gap-2">
@@ -65,7 +65,7 @@ export default function ProjectCard({ project }: Props) {
   const renderDetail = () => (
     <>
       <Caret open={show} onClick={handleClicked} />
-      <ItemTitle items={project.name} />
+      <ItemTitle items={project.name} onClick={handleClicked} className="cursor-pointer"/>
       <Anchor link={`#${slug(project.company)}`}>{project.company}</Anchor>
       <Label label="Working Period" />
       <p className="text-xs">{project.workingPeriod}</p>

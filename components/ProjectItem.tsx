@@ -24,8 +24,8 @@ export default function ProjectAccordion({ item }: Props) {
   return (
     <div className="w-full relative">
       <Caret open={open} onClick={handleOpen} />
-      <h2 className={clsx(
-        'w-full p-4 flex flex-wrap gap-2 items-center',
+      <h2 onClick={handleOpen} className={clsx(
+        'w-full p-4 flex flex-wrap gap-2 items-center cursor-pointer',
         open && 'separator'
       )}>
         <div className="flex gap-2">

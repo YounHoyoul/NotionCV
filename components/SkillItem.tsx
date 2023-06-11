@@ -41,7 +41,7 @@ export default function SkillItem({ id, item }: Props) {
   const renderSummary = () => (
     <>
       <Caret open={false} onClick={handleClicked} topClassName="top-3" />
-      <h2 className={clsx("text-md w-full pr-20 px-4 py-2",)}>
+      <h2 onClick={handleClicked} className={clsx("text-md w-full pr-20 px-4 py-2 cursor-point",)}>
         {renderTitle()}
       </h2>
     </>
@@ -50,8 +50,8 @@ export default function SkillItem({ id, item }: Props) {
   const renderPanel = () => (
     <>
       <Caret open={show} onClick={handleClicked} topClassName="top-3" />
-      <h2 className={clsx(
-        "text-md", "w-full", "pr-20", "pb-2",
+      <h2 onClick={handleClicked} className={clsx(
+        "text-md", "w-full", "pr-20", "pb-2", "cursor-pointer"
       )}>
         {renderTitle()}
       </h2>

@@ -53,7 +53,7 @@ export default function ExperienceCard({ experience }: Props) {
   const renderSummary = () => (
     <>
       <Caret open={false} onClick={handleClicked} />
-      <ItemTitle items={experience.company.name} icon={experience.company.icon} />
+      <ItemTitle items={experience.company.name} icon={experience.company.icon} onClick={handleClicked} className="cursor-pointer" />
       <SelectItems items={[experience.company.type, experience.company.role]} />
       <p className="text-xs text-primay-color">{experience.company.workingPeriod}</p>
       <Text text={experience.company.address} fontSize="xs" />
@@ -70,7 +70,7 @@ export default function ExperienceCard({ experience }: Props) {
   const renderDetail = () => (
     <>
       <Caret open={show} onClick={handleClicked} />
-      <ItemTitle items={experience.company.name} icon={experience.company.icon} />
+      <ItemTitle items={experience.company.name} icon={experience.company.icon} onClick={handleClicked} className="cursor-pointer" />
       <Label label="Working Type" />
       <SelectItems items={[experience.company.type]} />
       <Label label="Role" />
