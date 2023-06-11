@@ -40,3 +40,4 @@ export const TITLE_PROJECTS = 'Projects';
 export const TITLE_SKILL = 'Skill';
 
 export const SLEEP = 500;
+export const DURATION = 300;

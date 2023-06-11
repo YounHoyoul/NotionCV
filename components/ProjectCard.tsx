@@ -1,7 +1,7 @@
 "use client";
 
 import clsx from 'clsx';
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import Text from "./Text";
 import Caret from "./Caret";
@@ -13,12 +13,15 @@ import SelectItems from './SelectItems';
 import Anchor from './Anchor';
 import { slug } from '@/lib/slugify';
 import { closePanelOnDocumentClicked } from '@/lib/closePanelOnDocucmentClicked';
+import { openPanel } from '@/lib/openAnimation';
 
 type Props = {
   project: Project
 };
 
 export default function ProjectCard({ project }: Props) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
   const [show, setShow] = useState(false);
 
   const id = slug(project.name[0].plain_text);
@@ -26,6 +29,10 @@ export default function ProjectCard({ project }: Props) {
   useEffect(() => {
     closePanelOnDocumentClicked(id, () => setShow(false));
   }, []);
+
+  useEffect(() => {
+    openPanel(containerRef, panelRef, show);
+  }, [containerRef, panelRef, show]);
 
   const handleClicked = () => setShow(!show);
 
@@ -57,7 +64,7 @@ export default function ProjectCard({ project }: Props) {
 
   const renderDetail = () => (
     <>
-      <Caret open={true} onClick={handleClicked} />
+      <Caret open={show} onClick={handleClicked} />
       <ItemTitle items={project.name} />
       <Anchor link={`#${slug(project.company)}`}>{project.company}</Anchor>
       <Label label="Working Period" />
@@ -73,17 +80,17 @@ export default function ProjectCard({ project }: Props) {
   );
 
   return (
-    <div id={id}
+    <div id={id} ref={containerRef}
       className={clsx(
         'shadow', 'border', 'bg-white', 'dark:border-0', 'dark:bg-gray-800',
         'rounded', 'p-4', 'w-full', 'sm:basis-1/2-gap-4', 'lg:basis-1/3-gap-4',
         'xl:basis-1/4-gap-4 flex', 'flex-col', 'gap-2', 'relative', 'transition'
       )}>
       {renderSummary()}
-      <div className={clsx(
+      <div ref={panelRef} className={clsx(
         'absolute', 'shadow', 'w-full-card', '-left-[1px]', '-top-[1px]', 'block', 'p-4',
-        'border', 'bg-white', 'rounded', 'dark:bg-gray-800', 'z-10', 'flex',
-        'flex-col', 'gap-2', 'transition', !show && 'hidden')}>
+        'border', 'bg-white', 'rounded', 'dark:bg-gray-800', 'flex',
+        'flex-col', 'gap-2', 'transition-all', 'duration-300', 'opacity-0', 'overflow-y-hidden')}>
         {renderDetail()}
       </div>
     </div>

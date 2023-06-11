@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { MouseEvent } from "react";
-import { RxCaretDown, RxCaretRight } from "react-icons/rx";
+import { RxCaretRight } from "react-icons/rx";
 
 type Props = {
   open: boolean,
@@ -14,12 +14,12 @@ export default function Caret({ open, topClassName, onClick }: Props) {
       "absolute",
       topClassName ? topClassName : "top-5",
       "right-2",
-      "cursor-pointer"
+      "cursor-pointer",
+      "transition",
+      "duration-300",
+      open && "rotate-90"
     )}>
-      {open
-        ? <RxCaretDown className="text-gray-500 dark:text-gray-300 text-lg" />
-        : <RxCaretRight className="text-gray-500 dark:text-gray-300 text-lg" />
-      }
+      <RxCaretRight className="text-gray-500 dark:text-gray-300 text-lg" />
     </span>
   )
 }

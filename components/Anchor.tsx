@@ -26,6 +26,7 @@ export default function Anchor({ link, className, children, onClick }: Props) {
   return (
     <a href={link} onClick={handleClicked} className={clsx(
       className,
+      'cursor-pointer',
       'hover:text-teal-600',
       'dark:hover:text-teal-300',
       'transition-colors',

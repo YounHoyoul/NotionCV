@@ -1,13 +1,14 @@
 "use client"
 
 import clsx from 'clsx';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import SelectItem from './SelectItem';
 import Caret from './Caret';
 import Anchor from './Anchor';
 import { slug } from '@/lib/slugify';
 import { closePanelOnDocumentClicked } from '@/lib/closePanelOnDocucmentClicked';
+import { openPanel } from '@/lib/openAnimation';
 
 type Props = {
   id: string,
@@ -15,11 +16,17 @@ type Props = {
 };
 
 export default function SkillItem({ id, item }: Props) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
   const [show, setShow] = useState(false);
 
   useEffect(() => {
     closePanelOnDocumentClicked(id, () => setShow(false));
   }, []);
+
+  useEffect(() => {
+    openPanel(containerRef, panelRef, show);
+  }, [containerRef, panelRef, show]);
 
   const handleClicked = () => setShow(!show);
 
@@ -42,7 +49,7 @@ export default function SkillItem({ id, item }: Props) {
 
   const renderPanel = () => (
     <>
-      <Caret open={true} onClick={handleClicked} topClassName="top-3" />
+      <Caret open={show} onClick={handleClicked} topClassName="top-3" />
       <h2 className={clsx(
         "text-md", "w-full", "pr-20", "pb-2",
       )}>
@@ -64,17 +71,17 @@ export default function SkillItem({ id, item }: Props) {
   );
 
   return (
-    <div id={id} className={clsx(
+    <div id={id} ref={containerRef} className={clsx(
       'w-full', 'relative', 'my-1', 'transition',
       item.highlighted && 'bg-white',
       item.highlighted && 'rounded',
       item.highlighted && 'dark:bg-gray-800',
     )}>
       {renderSummary()}
-      <div className={clsx(
+      <div ref={panelRef} className={clsx(
         'absolute', 'shadow', 'w-full-card', '-left-[1px]', '-top-[1px]', 'block', 'px-4', 'py-2',
-        'border', 'bg-white', 'rounded', 'dark:bg-gray-800', 'z-10', 'flex',
-        'flex-col', 'gap-2', 'transition', !show && 'hidden')}>
+        'border', 'bg-white', 'rounded', 'dark:bg-gray-800', 'flex',
+        'flex-col', 'gap-2', 'transition-all', 'duration-300', 'opacity-0', 'overflow-y-hidden')}>
         {renderPanel()}
       </div>
     </div>
