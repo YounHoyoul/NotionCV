@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import Text from "./Text";
 import Caret from "./Caret";
 import ItemTitle from "./ItemTitle";
-import { TITLE_BACKEND, TITLE_FRONTEND, TITLE_LANGUAGE, TITLE_WEBDBSEERVER } from '@/repositories/Constants';
+import { DURATION, TITLE_BACKEND, TITLE_FRONTEND, TITLE_LANGUAGE, TITLE_WEBDBSEERVER } from '@/repositories/Constants';
 import LinkedSelectItems from './LinkedSelectItems';
 import Label from './Label';
 import SelectItems from './SelectItems';
@@ -14,17 +14,27 @@ import Anchor from './Anchor';
 import { slug } from '@/lib/slugify';
 import { closePanelOnDocumentClicked } from '@/lib/closePanelOnDocucmentClicked';
 import { openPanel } from '@/lib/openAnimation';
+import { LINK_CLICKED, useAppContext } from '@/context/state';
 
 type Props = {
-  project: Project
+  project: Project,
+  onForceOpen: () => void
 };
 
-export default function ProjectCard({ project }: Props) {
+export default function ProjectCard({ project, onForceOpen }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const [show, setShow] = useState(false);
+  const sharedState = useAppContext();
 
   const id = slug(project.name[0].plain_text);
+
+  sharedState.eventBus.subscribe(LINK_CLICKED, (cmpId: string) => {
+    if (cmpId === `#${id}`) {
+      onForceOpen();
+      setTimeout(() => setShow(true), DURATION / 2);
+    }
+  });
 
   useEffect(() => {
     closePanelOnDocumentClicked(id, () => setShow(false));
@@ -50,7 +60,7 @@ export default function ProjectCard({ project }: Props) {
   const renderSummary = () => (
     <>
       <Caret open={false} onClick={handleClicked} />
-      <ItemTitle items={project.name} onClick={handleClicked} className="cursor-pointer"/>
+      <ItemTitle items={project.name} onClick={handleClicked} className="cursor-pointer" />
       <p className="text-xs">{project.workingPeriod}</p>
       <SelectItems items={[project.role]} />
       <div className="flex flex-wrap gap-2">
@@ -65,7 +75,7 @@ export default function ProjectCard({ project }: Props) {
   const renderDetail = () => (
     <>
       <Caret open={show} onClick={handleClicked} />
-      <ItemTitle items={project.name} onClick={handleClicked} className="cursor-pointer"/>
+      <ItemTitle items={project.name} onClick={handleClicked} className="cursor-pointer" />
       <Anchor link={`#${slug(project.company)}`}>{project.company}</Anchor>
       <Label label="Working Period" />
       <p className="text-xs">{project.workingPeriod}</p>

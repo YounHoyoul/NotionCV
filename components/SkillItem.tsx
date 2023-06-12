@@ -9,16 +9,27 @@ import Anchor from './Anchor';
 import { slug } from '@/lib/slugify';
 import { closePanelOnDocumentClicked } from '@/lib/closePanelOnDocucmentClicked';
 import { openPanel } from '@/lib/openAnimation';
+import { LINK_CLICKED, useAppContext } from '@/context/state';
+import { DURATION } from '@/repositories/Constants';
 
 type Props = {
   id: string,
-  item: SkillResultSet
+  item: SkillResultSet,
+  onForceOpen?: () => void
 };
 
-export default function SkillItem({ id, item }: Props) {
+export default function SkillItem({ id, item, onForceOpen }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const [show, setShow] = useState(false);
+  const sharedState = useAppContext();
+
+  sharedState.eventBus.subscribe(LINK_CLICKED, (cmpId: string) => {
+    if (cmpId === `#${id}`) {
+      onForceOpen && onForceOpen();
+      setTimeout(() => setShow(true), DURATION / 2);
+    }
+  });
 
   useEffect(() => {
     closePanelOnDocumentClicked(id, () => setShow(false));

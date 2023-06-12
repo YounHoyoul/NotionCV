@@ -6,14 +6,18 @@ import Caret from "./Caret";
 import { useEffect, useRef, useState } from "react";
 import { openAccordion } from "@/lib/openAnimation";
 import clsx from "clsx";
+import { COLLAPSE_SKILLSETS, useAppContext } from "@/context/state";
 
 type Props = { title: string, items: SkillResultSet[] }
 
 export default function SkillSet({ title, items }: Props) {
   const panelRef = useRef<HTMLDivElement>(null)
   const [open, setOpen] = useState(true);
+  const sharedState = useAppContext();
 
+  sharedState.eventBus.subscribe(COLLAPSE_SKILLSETS, () => setOpen(false));
   const handleOpen = () => open ? setOpen(false) : setOpen(true);
+  const handleForceOpen = () => setOpen(true);
 
   useEffect(() => {
     openAccordion(panelRef, open);
@@ -29,7 +33,7 @@ export default function SkillSet({ title, items }: Props) {
         className={clsx('flex flex-wrap mt-2 transition-all duration-300')}>
         {items && items.length > 0 && items.map((item, index) => {
           return (
-            <SkillItem key={index} item={item} id={slug(`${title} ${item.name}`)} />
+            <SkillItem key={index} item={item} id={slug(`${title} ${item.name}`)} onForceOpen={handleForceOpen} />
           );
         })}
       </div>

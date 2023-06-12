@@ -14,6 +14,7 @@ import { DURATION, TITLE_BACKEND, TITLE_FRONTEND, TITLE_LANGUAGE, TITLE_WEBDBSEE
 import { slug } from "@/lib/slugify";
 import { closePanelOnDocumentClicked } from "@/lib/closePanelOnDocucmentClicked";
 import { openPanel } from "@/lib/openAnimation";
+import { LINK_CLICKED, useAppContext } from "@/context/state";
 
 type Props = {
   experience: ExperienceResultSet
@@ -23,8 +24,15 @@ export default function ExperienceCard({ experience }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const [show, setShow] = useState(false);
+  const sharedState = useAppContext();
 
   const id = slug(experience.company.name[0].plain_text);
+
+  sharedState.eventBus.subscribe(LINK_CLICKED, (cmpId: string) => {
+    if (cmpId === `#${id}`) {
+      setTimeout(() => setShow(true), DURATION / 2);
+    }
+  });
 
   useEffect(() => {
     closePanelOnDocumentClicked(id, () => setShow(false));

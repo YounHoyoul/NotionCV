@@ -29,6 +29,9 @@ export const openPanel = (
       panelRef.current && (panelRef.current.style.opacity = '0');
       panelRef.current && (panelRef.current.style.zIndex = '0');
     }, DURATION / 2);
+    setTimeout(() => {
+      panelRef.current && (panelRef.current.style.zIndex = '-1');
+    }, DURATION)
   }
 };
 
